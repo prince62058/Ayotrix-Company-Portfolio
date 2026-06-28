@@ -15,8 +15,9 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-if (!process.env.MONGO_URI) {
-  console.error("MONGO_URI is missing from environment/env file!");
+const mongoUrl = process.env.MONGO_URI || process.env.DATABASE_URL;
+if (!mongoUrl) {
+  console.error("DATABASE_URL or MONGO_URI is missing from environment/env file!");
   process.exit(1);
 }
 
@@ -76,7 +77,7 @@ const TESTIMONIALS = [
 
 async function seed() {
   console.log("Connecting to MongoDB...");
-  await mongoose.connect(process.env.MONGO_URI as string);
+  await mongoose.connect(mongoUrl as string);
   console.log("Connected successfully!");
 
   // 1. Seed Site Settings

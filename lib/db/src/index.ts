@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
-const mongoUrl = process.env.MONGO_URI;
+const mongoUrl = process.env.MONGO_URI || process.env.DATABASE_URL;
 
 if (!mongoUrl) {
   throw new Error(
-    "MONGO_URI must be set. Please configure your MongoDB connection string.",
+    "DATABASE_URL or MONGO_URI must be set. Please configure your MongoDB connection string.",
   );
 }
 

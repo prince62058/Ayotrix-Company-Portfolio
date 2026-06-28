@@ -1,0 +1,155 @@
+Dedicated Inquiry Forms for Every Service & Product
+
+Every service and product page must have its own unique inquiry form. Do not reuse the same generic form across all pages.
+
+Each form should automatically identify the page/service from which the enquiry is submitted and save that information in the database.
+
+1. E-Commerce Development Form
+
+Title: Get Your E-Commerce Store Quote
+
+Fields:
+
+Full Name
+Mobile Number
+Email Address
+Company/Business Name
+Business Type
+Existing Website (Optional)
+Number of Products
+Required Features (Multi-select)
+Estimated Budget
+Project Timeline
+Project Description
+Submit Button
+2. Taxi Booking App Development Form
+
+Title: Build Your Taxi App
+
+Fields:
+
+Full Name
+Mobile Number
+Email
+Company Name
+City/Country
+Number of Vehicles
+Customer App Required (Yes/No)
+Driver App Required (Yes/No)
+Admin Panel Required (Yes/No)
+Budget
+Timeline
+Additional Requirements
+Submit Button
+3. Service Provider Platform Form
+
+Title: Build Your Service Marketplace
+
+Fields:
+
+Full Name
+Mobile Number
+Email
+Business Name
+Service Category
+Number of Service Providers
+Customer App Required
+Provider App Required
+Admin Panel Required
+Budget
+Project Details
+Submit Button
+Product Forms (Different for Each Product)
+Ads Management
+Business Name
+Monthly Ad Budget
+Platform (Google/Meta/Both)
+Industry
+Goals
+Contact Details
+WhatsApp Marketing
+Business Name
+WhatsApp Number
+Monthly Contacts
+API Required
+Campaign Type
+Contact Details
+RCS Marketing
+Brand Name
+Monthly Message Volume
+Industry
+Campaign Objective
+Contact Details
+OTP Services
+Company Name
+Monthly OTP Volume
+Country
+API Integration Required
+Contact Details
+AI Agents
+Company Name
+AI Agent Type (Sales/Support/Voice)
+CRM Used
+Daily Calls
+Contact Details
+WhatsApp Automation Chatbot
+Business Name
+Industry
+CRM Required
+AI Chatbot Needed
+Automation Requirements
+Contact Details
+Google My Business Optimization
+Business Name
+Business Location
+Existing GMB Profile (Yes/No)
+Monthly Goal
+Contact Details
+Google Ads
+Business Name
+Website URL
+Monthly Ad Budget
+Campaign Goal
+Industry
+Contact Details
+Digital Marketing Forms
+Social Media Marketing
+Business Name
+Social Platforms
+Monthly Budget
+Goals
+Contact Details
+Graphic Designing
+Design Type
+Brand Name
+Number of Designs
+Deadline
+Contact Details
+UGC Reels
+Brand Name
+Product Category
+Number of Reels Required
+Platform
+Contact Details
+SEO
+Website URL
+Business Category
+Target Keywords
+Target Location
+Monthly Budget
+Contact Details
+Backend Requirements
+Every form should submit to a separate endpoint or include a hidden serviceType/productType field (e.g., ecommerce-development, google-ads, seo).
+Store all enquiries in the database with:
+Form Type
+Service/Product Name
+Submission Date & Time
+User Details
+Source URL
+Send confirmation email to the user.
+Send notification email to the admin.
+Add spam protection (Google reCAPTCHA or Cloudflare Turnstile).
+Validate all required fields.
+Show success/error messages with smooth animations.
+
+Result: Har page ka apna customized enquiry form hoga, jisse leads properly categorize hongi aur sales team ko turant pata chal jayega ki enquiry kis service ya product ke liye aayi hai.

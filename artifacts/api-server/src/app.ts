@@ -43,6 +43,20 @@ app.use(
   }),
 );
 
+import path from "path";
+
 app.use("/api", router);
+
+// Serve the frontend static files
+const frontendPath = path.join(process.cwd(), "../ayotrix/dist/public");
+app.use(express.static(frontendPath));
+
+// Fallback to index.html for React routing (wouter)
+app.get("*", (req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
 
 export default app;

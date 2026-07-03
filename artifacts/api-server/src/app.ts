@@ -52,7 +52,7 @@ const frontendPath = path.join(process.cwd(), "../ayotrix/dist/public");
 app.use(express.static(frontendPath));
 
 // Fallback to index.html for React routing (wouter)
-app.get("*", (req, res, next) => {
+app.use((req, res, next) => {
   if (req.path.startsWith("/api")) {
     return next();
   }

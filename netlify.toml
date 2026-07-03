@@ -1,0 +1,9 @@
+[build]
+  command = "pnpm run build"
+  functions = "netlify/functions"
+  publish = "artifacts/api-server/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api"
+  status = 200

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { SiteSettingsModel } from "@workspace/db";
 
 const router = Router();
@@ -17,7 +17,7 @@ function requireAdmin(req: any, res: any, next: any) {
   return res.status(401).json({ error: "Not authenticated" });
 }
 
-router.post("/admin/login", async (req, res) => {
+router.post("/admin/login", async (req: Request, res: Response) => {
   const { password } = req.body;
   const settings = await getSettings();
   if (password === settings.password) {
@@ -43,7 +43,7 @@ router.get("/admin/me", (req, res) => {
   }
 });
 
-router.post("/admin/change-password", requireAdmin, async (req, res) => {
+router.post("/admin/change-password", requireAdmin, async (req: Request, res: Response) => {
   const { currentPassword, newPassword } = req.body;
   const settings = await getSettings();
   if (currentPassword !== settings.password) {
@@ -54,7 +54,7 @@ router.post("/admin/change-password", requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-router.get("/admin/site-settings", requireAdmin, async (req, res) => {
+router.get("/admin/site-settings", requireAdmin, async (req: Request, res: Response) => {
   const settings = await getSettings();
   res.json({
     logoUrl: settings.logoUrl,
@@ -65,7 +65,7 @@ router.get("/admin/site-settings", requireAdmin, async (req, res) => {
   });
 });
 
-router.put("/admin/site-settings", requireAdmin, async (req, res) => {
+router.put("/admin/site-settings", requireAdmin, async (req: Request, res: Response) => {
   const { logoUrl, companyName, phone, email, address } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
@@ -75,7 +75,7 @@ router.put("/admin/site-settings", requireAdmin, async (req, res) => {
   res.json({ success: true });
 });
 
-router.get("/site-settings", async (req, res) => {
+router.get("/site-settings", async (req: Request, res: Response) => {
   const settings = await getSettings();
   res.json({
     logoUrl: settings.logoUrl,

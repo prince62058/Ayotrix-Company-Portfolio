@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { Router, type Request, type Response } from "express";
 import { ServiceModel, ProductModel, TeamMemberModel, ClientModel } from "@workspace/db";
 
 const router = Router();
 
-router.get("/stats", async (req, res) => {
+router.get("/stats", async (req: Request, res: Response) => {
   const servicesCount = await ServiceModel.countDocuments();
   const productsCount = await ProductModel.countDocuments();
   const teamCount = await TeamMemberModel.countDocuments();

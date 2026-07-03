@@ -28,13 +28,13 @@ router.post("/admin/login", async (req: Request, res: Response) => {
   }
 });
 
-router.post("/admin/logout", (req, res) => {
+router.post("/admin/logout", (req: any, res: any) => {
   req.session.destroy(() => {
     res.json({ success: true });
   });
 });
 
-router.get("/admin/me", (req, res) => {
+router.get("/admin/me", (req: any, res: any) => {
   const adminData = (req.session as any)[ADMIN_SESSION_KEY];
   if (adminData) {
     res.json({ username: adminData.username, isAuthenticated: true });

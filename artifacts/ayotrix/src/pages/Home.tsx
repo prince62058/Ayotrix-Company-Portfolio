@@ -18,6 +18,7 @@ const HERO_SLIDES = [
     cta: "Explore Services",
     ctaLink: "/services",
     tag: "150+ Apps Delivered",
+    imageUrl: "",
   },
   {
     badge: "Communication Products",
@@ -27,6 +28,7 @@ const HERO_SLIDES = [
     cta: "View Products",
     ctaLink: "/products",
     tag: "Trusted by 2000+ businesses",
+    imageUrl: "",
   },
   {
     badge: "Digital Marketing",
@@ -36,6 +38,7 @@ const HERO_SLIDES = [
     cta: "Start Growing",
     ctaLink: "/digital-marketing",
     tag: "200% Average ROI",
+    imageUrl: "",
   },
 ];
 

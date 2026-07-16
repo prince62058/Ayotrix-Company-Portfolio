@@ -12,6 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash } from "lucide-react";
+import IconPicker from "@/components/IconPicker";
+import IconDisplay from "@/components/IconDisplay";
 
 export default function AdminServices() {
   const { data: services, isLoading } = useGetServices();
@@ -122,10 +124,7 @@ export default function AdminServices() {
                 <Label htmlFor="description">Description</Label>
                 <Textarea id="description" value={formData.description} onChange={e => setFormData(p => ({ ...p, description: e.target.value }))} required className="bg-background rounded-2xl resize-none" />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="icon">Icon Identifier</Label>
-                <Input id="icon" value={formData.icon} onChange={e => setFormData(p => ({ ...p, icon: e.target.value }))} className="bg-background rounded-2xl" />
-              </div>
+              <IconPicker value={formData.icon} onChange={(icon) => setFormData(p => ({ ...p, icon }))} />
               <div className="space-y-2">
                 <Label htmlFor="features">Features (One per line)</Label>
                 <Textarea id="features" value={formData.features} onChange={e => setFormData(p => ({ ...p, features: e.target.value }))} className="bg-background rounded-2xl resize-none" />
@@ -154,6 +153,7 @@ export default function AdminServices() {
             <Table>
               <TableHeader>
                 <TableRow className="border-border">
+                  <TableHead>Icon</TableHead>
                   <TableHead>Name</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -162,6 +162,11 @@ export default function AdminServices() {
               <TableBody>
                 {services?.map((service) => (
                   <TableRow key={service.id} className="border-border">
+                    <TableCell>
+                      <div className="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xl overflow-hidden">
+                        <IconDisplay icon={service.icon} alt={service.name} imgClassName="w-6 h-6 object-contain" />
+                      </div>
+                    </TableCell>
                     <TableCell className="font-medium text-white">{service.name}</TableCell>
                     <TableCell>{service.isActive ? "Active" : "Inactive"}</TableCell>
                     <TableCell className="text-right">
@@ -176,7 +181,7 @@ export default function AdminServices() {
                 ))}
                 {services?.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">No services found.</TableCell>
+                    <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">No services found.</TableCell>
                   </TableRow>
                 )}
               </TableBody>

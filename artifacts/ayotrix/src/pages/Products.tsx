@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { PRODUCTS } from "@/lib/static-data";
 import { useGetProducts } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 export default function Products() {
   const { data: apiProducts } = useGetProducts();
@@ -13,6 +15,11 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-white pt-24">
+      <SeoHead
+        title="WhatsApp Marketing, RCS, OTP & AI Agents | Ayotrix Products"
+        description="Communication products from Ayotrix — WhatsApp marketing, RCS messaging, OTP services, AI agents, chatbots, Google Ads, and GMB optimization."
+        path="/products"
+      />
       {/* Hero */}
       <section className="relative overflow-hidden py-20 border-b border-gray-100" style={{ background: "linear-gradient(135deg, #0A1628 0%, #1E3A8A 100%)" }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -60,8 +67,8 @@ export default function Products() {
 
                     <div className="p-8">
                       <div className="flex items-start justify-between mb-6">
-                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl" style={{ background: product.bgLight }}>
-                          {product.icon}
+                        <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl overflow-hidden" style={{ background: product.bgLight }}>
+                          <IconDisplay icon={resolveIcon(product)} alt={product.name} imgClassName="w-8 h-8 object-contain" />
                         </div>
                         <motion.div
                           className="w-8 h-8 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"

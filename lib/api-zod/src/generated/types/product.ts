@@ -11,6 +11,7 @@ export interface Product {
   name: string;
   description: string;
   imageUrl: string;
+  icon?: string;
   category: string;
   isActive: boolean;
   sortOrder: number;

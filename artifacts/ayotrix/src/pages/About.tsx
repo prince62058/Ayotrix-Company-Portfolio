@@ -6,6 +6,7 @@ import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scrol
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { CheckCircle2, Target, Zap, Shield, Users } from "lucide-react";
 import logoImg from "@assets/a_logo_(1)_1781854062528.png";
+import SeoHead from "@/components/SeoHead";
 
 const values = [
   { icon: Target, title: "Mission-Driven", desc: "Every line of code serves your business goals. We don't build features — we build outcomes." },
@@ -21,6 +22,28 @@ export default function About() {
 
   return (
     <div className="min-h-screen pb-20">
+      <SeoHead
+        title="About Ayotrix Infotech | IT Company in Bhopal"
+        description="Learn about Ayotrix Infotech — founded by Subham Pandey in Bhopal. Custom software, communication products, and digital marketing for 200+ businesses across India."
+        path="/about"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          name: "About Ayotrix Infotech",
+          url: "https://ayotrix.com/about",
+          mainEntity: {
+            "@type": "Organization",
+            name: "Ayotrix Infotech",
+            founder: { "@type": "Person", name: "Subham Pandey" },
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: "Bhopal",
+              addressRegion: "Madhya Pradesh",
+              addressCountry: "IN",
+            },
+          },
+        }}
+      />
       {/* Hero */}
       <section className="hero-dark relative overflow-hidden py-28 border-b border-border">
         <motion.div

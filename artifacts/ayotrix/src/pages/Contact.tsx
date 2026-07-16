@@ -1,25 +1,45 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useSubmitContact } from "@workspace/api-client-react";
+import { useSubmitContact, useGetSiteSettings } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2 } from "lucide-react";
+import SeoHead from "@/components/SeoHead";
 
-const contactInfo = [
-  { icon: Phone, label: "Phone", value: "+91 9752045356", sub: "Mon-Sat, 9AM - 7PM" },
-  { icon: Mail, label: "Email", value: "info@ayotrix.com", sub: "We reply within 24 hours" },
-  { icon: MapPin, label: "Office", value: "Bhopal, Madhya Pradesh", sub: "India" },
-  { icon: Clock, label: "Hours", value: "Mon - Sat", sub: "9:00 AM - 7:00 PM IST" },
-];
+const DEFAULTS = {
+  companyName: "Ayotrix Infotech",
+  contactPerson: "Subham Pandey, CEO",
+  phone: "+91 97520 45356",
+  email: "info@ayotrix.com",
+  address: "Bhopal, Madhya Pradesh",
+};
+
+function toTelHref(phone: string) {
+  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+}
 
 export default function Contact() {
   const { toast } = useToast();
+  const { data: settings } = useGetSiteSettings();
   const mutation = useSubmitContact();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
+
+  const companyName = settings?.companyName || DEFAULTS.companyName;
+  const contactPerson = settings?.contactPerson || DEFAULTS.contactPerson;
+  const phone = settings?.phone || DEFAULTS.phone;
+  const email = settings?.email || DEFAULTS.email;
+  const address = settings?.address || DEFAULTS.address;
+
+  const contactInfo = [
+    { icon: Phone, label: "Phone", value: phone, sub: "Mon-Sat, 9AM - 7PM", href: toTelHref(phone) },
+    { icon: Mail, label: "Email", value: email, sub: "We reply within 24 hours", href: `mailto:${email}` },
+    { icon: MapPin, label: "Office", value: address, sub: "India", href: undefined },
+    { icon: Clock, label: "Hours", value: "Mon - Sat", sub: "9:00 AM - 7:00 PM IST", href: undefined },
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +59,17 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen pb-20">
+      <SeoHead
+        title={`Contact ${companyName} | Free Quote for Apps & Marketing`}
+        description={`Get a free consultation from ${companyName} in ${address}. Call ${phone} or email ${email} for app development and digital marketing.`}
+        path="/contact"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "ContactPage",
+          name: `Contact ${companyName}`,
+          url: "https://ayotrix.com/contact",
+        }}
+      />
       {/* Hero */}
       <section className="hero-dark relative overflow-hidden py-28 border-b border-border">
         <motion.div
@@ -72,7 +103,13 @@ export default function Contact() {
                   <info.icon className="w-5 h-5 text-primary" />
                 </div>
                 <div className="text-xs text-muted-foreground uppercase tracking-widest mb-1">{info.label}</div>
-                <div className="font-bold text-foreground dark:text-white">{info.value}</div>
+                {info.href ? (
+                  <a href={info.href} className="font-bold text-foreground dark:text-white hover:text-primary transition-colors">
+                    {info.value}
+                  </a>
+                ) : (
+                  <div className="font-bold text-foreground dark:text-white">{info.value}</div>
+                )}
                 <div className="text-xs text-muted-foreground mt-1">{info.sub}</div>
               </motion.div>
             </StaggerChild>
@@ -165,7 +202,7 @@ export default function Contact() {
 
           <ScrollReveal direction="right" className="lg:col-span-2 space-y-5">
             <div className="bg-card border border-border p-8">
-              <h3 className="font-black text-foreground dark:text-white text-lg mb-4">Why Choose Ayotrix Infotech?</h3>
+              <h3 className="font-black text-foreground dark:text-white text-lg mb-4">Why Choose {companyName}?</h3>
               <div className="space-y-4">
                 {[
                   "Free consultation & project scoping",
@@ -185,9 +222,13 @@ export default function Contact() {
             </div>
             <div className="bg-primary/5 border border-primary/20 p-8">
               <div className="text-primary text-xs font-bold uppercase tracking-widest mb-2">Direct Line</div>
-              <div className="text-3xl font-black text-foreground dark:text-white mb-1">+91 9752045356</div>
-              <div className="text-muted-foreground text-sm">Subham Pandey, CEO — Ayotrix Infotech</div>
-              <div className="text-muted-foreground text-xs mt-1">Bhopal, Madhya Pradesh</div>
+              <a href={toTelHref(phone)} className="block text-3xl font-black text-foreground dark:text-white mb-1 hover:text-primary transition-colors">
+                {phone}
+              </a>
+              <div className="text-muted-foreground text-sm">
+                {contactPerson} — {companyName}
+              </div>
+              <div className="text-muted-foreground text-xs mt-1">{address}</div>
             </div>
           </ScrollReveal>
         </div>

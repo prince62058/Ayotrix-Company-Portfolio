@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { SERVICES } from "@/lib/static-data";
 import { useGetServices } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 export default function Services() {
   const { data: apiServices } = useGetServices();
@@ -13,6 +15,11 @@ export default function Services() {
 
   return (
     <div className="min-h-screen bg-white pt-24">
+      <SeoHead
+        title="App Development Services | E-Commerce, Taxi & Marketplace Apps | Ayotrix"
+        description="Custom e-commerce, taxi booking, and service marketplace app development by Ayotrix Infotech. Mobile-first platforms built for scale and conversions."
+        path="/services"
+      />
       {/* Hero */}
       <section className="relative overflow-hidden py-20 border-b border-gray-100" style={{ background: "linear-gradient(135deg, #EEF2FF 0%, #F8FAFF 60%, #fff 100%)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(ellipse at 80% 20%, rgba(37,99,235,0.10), transparent 60%)" }} />
@@ -78,8 +85,8 @@ export default function Services() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
                     <div>
                       <div className="flex items-center gap-4 mb-6">
-                        <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl" style={{ background: service.bgLight, border: `1.5px solid ${service.color}33` }}>
-                          {service.icon}
+                        <div className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl overflow-hidden" style={{ background: service.bgLight, border: `1.5px solid ${service.color}33` }}>
+                          <IconDisplay icon={resolveIcon(service)} alt={service.name} imgClassName="w-9 h-9 object-contain" />
                         </div>
                         <div className="text-5xl font-black font-mono" style={{ color: "#F1F5F9" }}>
                           {String(index + 1).padStart(2, "0")}

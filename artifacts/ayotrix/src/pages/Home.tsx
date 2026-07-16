@@ -8,6 +8,8 @@ import { Card3D } from "@/components/ui/card-3d";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import MessagingSection from "@/components/MessagingSection";
 import { useGetBanners, useGetServices, useGetProducts } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 const HERO_SLIDES = [
   {
@@ -225,9 +227,9 @@ function ServicesSection() {
               transition={{ duration: 0.25 }}
             >
               <div className="absolute top-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-500" style={{ background: service.color }} />
-              <div className="w-12 h-12 flex items-center justify-center mb-6 text-xl rounded-xl group-hover:scale-110 transition-transform duration-300"
+              <div className="w-12 h-12 flex items-center justify-center mb-6 text-xl rounded-xl group-hover:scale-110 transition-transform duration-300 overflow-hidden"
                 style={{ background: service.bgLight, border: `1px solid ${service.color}22` }}>
-                {service.icon}
+                <IconDisplay icon={resolveIcon(service)} alt={service.name} imgClassName="w-7 h-7 object-contain" />
               </div>
               <div className="absolute top-6 right-6 text-3xl font-black text-gray-100 font-mono">
                 {String(index + 1).padStart(2, "0")}
@@ -268,8 +270,8 @@ function ProductsSection() {
                   transition={{ duration: 0.2 }}
                 >
                   <div className="absolute top-0 left-0 right-0 h-0.5 transition-all duration-300 group-hover:opacity-100 opacity-0 rounded-t-2xl" style={{ background: product.color }} />
-                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4" style={{ background: product.bgLight }}>
-                    {product.icon}
+                  <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-4 overflow-hidden" style={{ background: product.bgLight }}>
+                    <IconDisplay icon={resolveIcon(product)} alt={product.name || product.shortName} imgClassName="w-7 h-7 object-contain" />
                   </div>
                   <h3 className="text-sm font-bold mb-2" style={{ color: "#0A1628" }}>{product.shortName}</h3>
                   <p className="text-xs text-muted-foreground line-clamp-2 mb-3">{product.tagline}</p>
@@ -318,7 +320,9 @@ function DigitalMarketingSection() {
                 whileHover={{ y: -6, scale: 1.02 }}
                 transition={{ duration: 0.25 }}
               >
-                <div className="text-3xl mb-4">{dm.icon}</div>
+                <div className="text-3xl mb-4 overflow-hidden w-12 h-12 flex items-center justify-center">
+                  <IconDisplay icon={resolveIcon(dm)} alt={dm.name} imgClassName="w-8 h-8 object-contain" />
+                </div>
                 <h3 className="text-lg font-bold text-white mb-2">{dm.name}</h3>
                 <p className="text-white/70 text-sm leading-relaxed mb-4">{dm.tagline}</p>
                 <span className="text-white/90 text-xs font-semibold inline-flex items-center gap-1 group-hover:gap-2 transition-all">
@@ -375,6 +379,24 @@ function CTASection() {
 export default function Home() {
   return (
     <div className="flex flex-col gap-20 pb-0">
+      <SeoHead
+        title="Ayotrix Infotech | App Development, WhatsApp Marketing & Digital Growth in Bhopal"
+        description="Build e-commerce apps, taxi booking platforms, WhatsApp/RCS marketing, AI agents, and digital marketing with Ayotrix Infotech — Bhopal's end-to-end IT partner."
+        path="/"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Ayotrix Infotech",
+          url: "https://ayotrix.com/",
+          description:
+            "App development, WhatsApp marketing, AI agents, and digital marketing by Ayotrix Infotech in Bhopal.",
+          publisher: {
+            "@type": "Organization",
+            name: "Ayotrix Infotech",
+            url: "https://ayotrix.com",
+          },
+        }}
+      />
       <HeroBanner />
       <ServicesSection />
       <ProductsSection />

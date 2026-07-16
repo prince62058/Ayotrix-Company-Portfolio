@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import logoImg from "@assets/a_logo_(1)_1781854062528.png";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
-import { useGetSiteSettings } from "@workspace/api-client-react";
-
-const serviceLinks = SERVICES.map(s => ({ href: `/services/${s.slug}`, label: s.name, icon: s.icon }));
-const productLinks = PRODUCTS.map(p => ({ href: `/products/${p.slug}`, label: p.name, icon: p.icon }));
-const dmLinks = DM_SERVICES.map(d => ({ href: `/digital-marketing/${d.slug}`, label: d.name, icon: d.icon }));
+import { useGetSiteSettings, useGetServices, useGetProducts } from "@workspace/api-client-react";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 interface DropdownItem { href: string; label: string; icon: string; }
 
@@ -36,9 +33,11 @@ function DropdownMenu({ items, onClose }: { items: DropdownItem[]; onClose: () =
             className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group"
             style={{ color: "rgba(30,45,80,0.75)" }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(29,99,238,0.07)"; (e.currentTarget as HTMLElement).style.color = "#2563EB"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(30,45,80,0.75)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; (e.currentTarget as HTMLElement).style.color = "rgba(30,45,80,0.65)"; }}
           >
-            <span className="text-base w-6 text-center">{item.icon}</span>
+            <span className="text-base w-6 h-6 flex items-center justify-center overflow-hidden">
+              <IconDisplay icon={item.icon} alt={item.label} imgClassName="w-5 h-5 object-contain" />
+            </span>
             <span>{item.label}</span>
           </Link>
         ))}
@@ -49,11 +48,34 @@ function DropdownMenu({ items, onClose }: { items: DropdownItem[]; onClose: () =
 
 export default function Navbar() {
   const { data: settings } = useGetSiteSettings();
+  const { data: apiServices } = useGetServices();
+  const { data: apiProducts } = useGetProducts();
   const [location] = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const serviceLinks = useMemo(() => {
+    const list = apiServices && apiServices.length > 0
+      ? (apiServices as any[]).filter(s => s.isActive !== false && s.category === "Application Development")
+      : SERVICES;
+    return list.map((s: any) => ({ href: `/services/${s.slug}`, label: s.name, icon: resolveIcon(s) }));
+  }, [apiServices]);
+
+  const productLinks = useMemo(() => {
+    const list = apiProducts && apiProducts.length > 0
+      ? (apiProducts as any[]).filter(p => p.isActive !== false)
+      : PRODUCTS;
+    return list.map((p: any) => ({ href: `/products/${p.slug}`, label: p.name, icon: resolveIcon(p) }));
+  }, [apiProducts]);
+
+  const dmLinks = useMemo(() => {
+    const list = apiServices && apiServices.length > 0
+      ? (apiServices as any[]).filter(s => s.isActive !== false && s.category === "Digital Marketing")
+      : DM_SERVICES;
+    return list.map((d: any) => ({ href: `/digital-marketing/${d.slug}`, label: d.name, icon: resolveIcon(d) }));
+  }, [apiServices]);
 
   const openDropdown = (key: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -143,6 +165,13 @@ export default function Navbar() {
             ))}
 
             <Link
+              href="/about"
+              className="relative px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
+              style={{ color: isActive("/about") ? "#2563EB" : "rgba(30,45,80,0.65)", background: isActive("/about") ? "rgba(29,99,238,0.08)" : "transparent" }}
+            >
+              About
+            </Link>
+            <Link
               href="/contact"
               className="relative px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
               style={{ color: isActive("/contact") ? "#2563EB" : "rgba(30,45,80,0.65)", background: isActive("/contact") ? "rgba(29,99,238,0.08)" : "transparent" }}
@@ -231,7 +260,9 @@ export default function Navbar() {
                             </Link>
                             {items.map(item => (
                               <Link key={item.href} href={item.href} onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm" style={{ color: "rgba(30,45,80,0.65)" }}>
-                                <span>{item.icon}</span> {item.label}
+                                <span className="w-5 h-5 flex items-center justify-center overflow-hidden">
+                                  <IconDisplay icon={item.icon} alt={item.label} imgClassName="w-4 h-4 object-contain" />
+                                </span> {item.label}
                               </Link>
                             ))}
                           </div>
@@ -241,6 +272,9 @@ export default function Navbar() {
                   </div>
                 ))}
 
+                <Link href="/about" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold" style={{ color: isActive("/about") ? "#2563EB" : "rgba(30,45,80,0.65)" }}>
+                  About
+                </Link>
                 <Link href="/contact" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold" style={{ color: "rgba(30,45,80,0.65)" }}>
                   Contact
                 </Link>

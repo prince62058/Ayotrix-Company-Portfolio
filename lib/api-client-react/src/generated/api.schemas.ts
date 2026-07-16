@@ -58,6 +58,8 @@ export interface Product {
   name: string;
   description: string;
   imageUrl: string;
+  /** Emoji or image URL used on the public site */
+  icon?: string;
   category: string;
   isActive: boolean;
   sortOrder: number;
@@ -67,6 +69,7 @@ export interface ProductInput {
   name: string;
   description: string;
   imageUrl: string;
+  icon?: string;
   category: string;
   isActive?: boolean;
   sortOrder?: number;
@@ -180,6 +183,7 @@ export interface ChangePasswordInput {
 export interface SiteSettings {
   logoUrl?: string;
   companyName?: string;
+  contactPerson?: string;
   phone?: string;
   email?: string;
   address?: string;

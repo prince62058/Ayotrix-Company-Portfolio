@@ -9,6 +9,7 @@
 export interface SiteSettings {
   logoUrl?: string;
   companyName?: string;
+  contactPerson?: string;
   phone?: string;
   email?: string;
   address?: string;

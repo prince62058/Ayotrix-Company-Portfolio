@@ -787,6 +787,8 @@ components:
           type: string
         imageUrl:
           type: string
+        icon:
+          type: string
         category:
           type: string
         isActive:
@@ -803,6 +805,8 @@ components:
         description:
           type: string
         imageUrl:
+          type: string
+        icon:
           type: string
         category:
           type: string
@@ -1005,6 +1009,8 @@ components:
         logoUrl:
           type: string
         companyName:
+          type: string
+        contactPerson:
           type: string
         phone:
           type: string

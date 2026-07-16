@@ -8,6 +8,8 @@ import InquiryForm from "@/components/InquiryForm";
 import { PRODUCTS } from "@/lib/static-data";
 import type { InquiryFormType } from "@/components/InquiryForm";
 import { useGetProducts } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 export default function ProductDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -17,6 +19,7 @@ export default function ProductDetail() {
   if (!product) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 pt-24">
+        <SeoHead title="Product Not Found | Ayotrix" description="The requested product page was not found." path={`/products/${slug || ""}`} noindex />
         <div className="text-6xl mb-6">🔍</div>
         <h2 className="text-3xl font-bold mb-4" style={{ color: "#0A1628" }}>Product Not Found</h2>
         <p className="text-muted-foreground mb-8">The product you're looking for doesn't exist.</p>
@@ -27,6 +30,19 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
+      <SeoHead
+        title={`${product.name} | Ayotrix Infotech`}
+        description={product.description || product.tagline || `${product.name} by Ayotrix Infotech.`}
+        path={`/products/${product.slug}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.name,
+          description: product.description,
+          brand: { "@type": "Brand", name: "Ayotrix Infotech" },
+          url: `https://ayotrix.com/products/${product.slug}`,
+        }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden pt-32 pb-24" style={{ background: product.gradient }}>
         <div className="absolute inset-0 pointer-events-none">
@@ -42,8 +58,8 @@ export default function ProductDetail() {
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               Communication Product
             </div>
-            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mb-6" style={{ background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.25)" }}>
-              {product.icon}
+            <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl mb-6 overflow-hidden" style={{ background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.25)" }}>
+              <IconDisplay icon={resolveIcon(product)} alt={product.name} imgClassName="w-12 h-12 object-contain" />
             </div>
             <h1 className="text-4xl md:text-7xl font-black text-white leading-tight mb-4">
               {product.name}

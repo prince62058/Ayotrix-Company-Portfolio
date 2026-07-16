@@ -116,7 +116,7 @@ export default function Footer() {
             </ul>
             <h4 className="text-sm font-black uppercase tracking-widest mb-4" style={{ color: "#0A1628" }}>Quick Links</h4>
             <ul className="space-y-2.5">
-              {[{ label: "Home", href: "/" }, { label: "All Services", href: "/services" }, { label: "All Products", href: "/products" }, { label: "Contact Us", href: "/contact" }].map(({ label, href }) => (
+              {[{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "All Services", href: "/services" }, { label: "All Products", href: "/products" }, { label: "Contact Us", href: "/contact" }].map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href} className="flex items-center gap-1.5 text-sm group" style={{ color: "#64748B" }}>
                     <span className="w-1 h-1 rounded-full shrink-0" style={{ background: "#CBD5E1" }} />
@@ -135,8 +135,11 @@ export default function Footer() {
             © {new Date().getFullYear()} {settings?.companyName || "Ayotrix Infotech Pvt. Ltd."} All rights reserved. | Made with ❤️ in Bhopal
           </p>
           <div className="flex items-center gap-4">
-            {["Privacy Policy", "Terms of Service"].map(t => (
-              <a key={t} href="#" className="text-xs transition-colors hover:text-primary" style={{ color: "#94A3B8" }}>{t}</a>
+            {[
+              { label: "Privacy Policy", href: "/privacy-policy" },
+              { label: "Terms of Service", href: "/terms-of-service" },
+            ].map(({ label, href }) => (
+              <Link key={label} href={href} className="text-xs transition-colors hover:text-primary" style={{ color: "#94A3B8" }}>{label}</Link>
             ))}
             <a
               href="/admin"

@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { DM_SERVICES } from "@/lib/static-data";
 import { useGetServices } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 export default function DigitalMarketing() {
   const { data: apiServices } = useGetServices();
@@ -13,6 +15,11 @@ export default function DigitalMarketing() {
 
   return (
     <div className="min-h-screen bg-white pt-24">
+      <SeoHead
+        title="Digital Marketing Agency in Bhopal | SEO, Social Media & UGC | Ayotrix"
+        description="Full-funnel digital marketing by Ayotrix Infotech — social media, SEO, graphic design, and UGC reels that turn browsers into buyers."
+        path="/digital-marketing"
+      />
       {/* Hero */}
       <section className="relative overflow-hidden py-20 border-b border-gray-100" style={{ background: "linear-gradient(135deg, #1A0020 0%, #500730 40%, #831843 100%)" }}>
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -80,7 +87,9 @@ export default function DigitalMarketing() {
                     <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-20" style={{ background: dm.color }} />
 
                     <div className="relative z-10 p-10 h-full flex flex-col">
-                      <div className="text-4xl mb-6">{dm.icon}</div>
+                      <div className="text-4xl mb-6 w-14 h-14 flex items-center justify-center overflow-hidden">
+                        <IconDisplay icon={resolveIcon(dm)} alt={dm.name} imgClassName="w-10 h-10 object-contain" />
+                      </div>
                       <h3 className="text-2xl font-black text-white mb-3">{dm.name}</h3>
                       <p className="text-white/70 text-sm leading-relaxed mb-6 flex-1">{dm.description}</p>
 

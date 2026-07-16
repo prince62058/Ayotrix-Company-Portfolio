@@ -87,6 +87,7 @@ async function seed() {
     key: "main",
     logoUrl: "", // Blank defaults to placeholder png
     companyName: "Ayotrix Infotech",
+    contactPerson: "Subham Pandey, CEO",
     phone: "+91 97520 45356",
     email: "info@ayotrix.com",
     address: "Bhopal, Madhya Pradesh",

@@ -180,6 +180,7 @@ export const GetProductsResponseItem = zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "imageUrl": zod.string(),
+  "icon": zod.string().optional(),
   "category": zod.string(),
   "isActive": zod.boolean(),
   "sortOrder": zod.number()
@@ -194,6 +195,7 @@ export const CreateProductBody = zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "imageUrl": zod.string(),
+  "icon": zod.string().optional(),
   "category": zod.string(),
   "isActive": zod.boolean().optional(),
   "sortOrder": zod.number().optional()
@@ -212,6 +214,7 @@ export const GetProductResponse = zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "imageUrl": zod.string(),
+  "icon": zod.string().optional(),
   "category": zod.string(),
   "isActive": zod.boolean(),
   "sortOrder": zod.number()
@@ -229,6 +232,7 @@ export const UpdateProductBody = zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "imageUrl": zod.string(),
+  "icon": zod.string().optional(),
   "category": zod.string(),
   "isActive": zod.boolean().optional(),
   "sortOrder": zod.number().optional()
@@ -239,6 +243,7 @@ export const UpdateProductResponse = zod.object({
   "name": zod.string(),
   "description": zod.string(),
   "imageUrl": zod.string(),
+  "icon": zod.string().optional(),
   "category": zod.string(),
   "isActive": zod.boolean(),
   "sortOrder": zod.number()
@@ -534,6 +539,7 @@ export const AdminChangePasswordResponse = zod.object({
 export const GetAdminSiteSettingsResponse = zod.object({
   "logoUrl": zod.string().optional(),
   "companyName": zod.string().optional(),
+  "contactPerson": zod.string().optional(),
   "phone": zod.string().optional(),
   "email": zod.string().optional(),
   "address": zod.string().optional()
@@ -546,6 +552,7 @@ export const GetAdminSiteSettingsResponse = zod.object({
 export const UpdateAdminSiteSettingsBody = zod.object({
   "logoUrl": zod.string().optional(),
   "companyName": zod.string().optional(),
+  "contactPerson": zod.string().optional(),
   "phone": zod.string().optional(),
   "email": zod.string().optional(),
   "address": zod.string().optional()
@@ -562,6 +569,7 @@ export const UpdateAdminSiteSettingsResponse = zod.object({
 export const GetSiteSettingsResponse = zod.object({
   "logoUrl": zod.string().optional(),
   "companyName": zod.string().optional(),
+  "contactPerson": zod.string().optional(),
   "phone": zod.string().optional(),
   "email": zod.string().optional(),
   "address": zod.string().optional()

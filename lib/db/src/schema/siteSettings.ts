@@ -6,6 +6,7 @@ export const siteSettingsSchema = new mongoose.Schema({
   password: { type: String, default: "525252" },
   logoUrl: { type: String, default: "" },
   companyName: { type: String, default: "Ayotrix Infotech" },
+  contactPerson: { type: String, default: "Subham Pandey, CEO" },
   phone: { type: String, default: "+91 97520 45356" },
   email: { type: String, default: "info@ayotrix.com" },
   address: { type: String, default: "Bhopal, Madhya Pradesh" },
@@ -18,6 +19,7 @@ export const SiteSettingsModel =
 export const updateSiteSettingsSchema = z.object({
   logoUrl: z.string().optional(),
   companyName: z.string().optional(),
+  contactPerson: z.string().optional(),
   phone: z.string().optional(),
   email: z.string().optional(),
   address: z.string().optional(),
@@ -33,6 +35,7 @@ export type SiteSettings = {
   password: string;
   logoUrl: string;
   companyName: string;
+  contactPerson: string;
   phone: string;
   email: string;
   address: string;

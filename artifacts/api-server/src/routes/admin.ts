@@ -59,6 +59,7 @@ router.get("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
   res.json({
     logoUrl: settings.logoUrl,
     companyName: settings.companyName,
+    contactPerson: settings.contactPerson,
     phone: settings.phone,
     email: settings.email,
     address: settings.address,
@@ -66,10 +67,10 @@ router.get("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
 });
 
 router.put("/admin/site-settings", requireAdmin, async (req: Request, res: Response) => {
-  const { logoUrl, companyName, phone, email, address } = req.body;
+  const { logoUrl, companyName, contactPerson, phone, email, address } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
-    { $set: { logoUrl, companyName, phone, email, address } },
+    { $set: { logoUrl, companyName, contactPerson, phone, email, address } },
     { upsert: true }
   );
   res.json({ success: true });
@@ -80,6 +81,7 @@ router.get("/site-settings", async (req: Request, res: Response) => {
   res.json({
     logoUrl: settings.logoUrl,
     companyName: settings.companyName,
+    contactPerson: settings.contactPerson,
     phone: settings.phone,
     email: settings.email,
     address: settings.address,

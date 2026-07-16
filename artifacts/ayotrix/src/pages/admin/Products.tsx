@@ -12,6 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit, Trash } from "lucide-react";
+import IconPicker from "@/components/IconPicker";
+import IconDisplay, { resolveIcon, isImageIcon } from "@/components/IconDisplay";
 
 export default function AdminProducts() {
   const { data: products, isLoading } = useGetProducts();
@@ -28,6 +30,7 @@ export default function AdminProducts() {
     name: "",
     description: "",
     imageUrl: "",
+    icon: "",
     category: "",
     isActive: true,
     sortOrder: 0
@@ -38,7 +41,8 @@ export default function AdminProducts() {
     setFormData({
       name: product.name,
       description: product.description,
-      imageUrl: product.imageUrl,
+      imageUrl: product.imageUrl || "",
+      icon: resolveIcon(product, ""),
       category: product.category,
       isActive: product.isActive,
       sortOrder: product.sortOrder
@@ -52,6 +56,7 @@ export default function AdminProducts() {
       name: "",
       description: "",
       imageUrl: "",
+      icon: "📦",
       category: "",
       isActive: true,
       sortOrder: 0
@@ -61,8 +66,13 @@ export default function AdminProducts() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Keep imageUrl in sync for legacy rows that used emoji as imageUrl
+    const payload = {
+      ...formData,
+      imageUrl: formData.imageUrl || formData.icon || "📦",
+    };
     if (editingId) {
-      updateProduct.mutate({ id: editingId, data: formData }, {
+      updateProduct.mutate({ id: editingId, data: payload }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetProductsQueryKey() });
           toast({ title: "Product updated" });
@@ -70,7 +80,7 @@ export default function AdminProducts() {
         }
       });
     } else {
-      createProduct.mutate({ data: formData }, {
+      createProduct.mutate({ data: payload }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetProductsQueryKey() });
           toast({ title: "Product created" });
@@ -121,9 +131,10 @@ export default function AdminProducts() {
                 <Label htmlFor="description">Description</Label>
                 <Textarea id="description" value={formData.description} onChange={e => setFormData(p => ({ ...p, description: e.target.value }))} required className="bg-background rounded-2xl resize-none" />
               </div>
+              <IconPicker value={formData.icon} onChange={(icon) => setFormData(p => ({ ...p, icon }))} label="Icon (emoji or image)" />
               <div className="space-y-2">
-                <Label htmlFor="imageUrl">Image URL</Label>
-                <Input id="imageUrl" value={formData.imageUrl} onChange={e => setFormData(p => ({ ...p, imageUrl: e.target.value }))} required className="bg-background rounded-2xl" />
+                <Label htmlFor="imageUrl">Cover Image URL (optional)</Label>
+                <Input id="imageUrl" value={isImageIcon(formData.imageUrl) ? formData.imageUrl : ""} onChange={e => setFormData(p => ({ ...p, imageUrl: e.target.value }))} className="bg-background rounded-2xl" placeholder="https://..." />
               </div>
               <div className="flex items-center space-x-2 pt-2">
                 <Switch id="isActive" checked={formData.isActive} onCheckedChange={c => setFormData(p => ({ ...p, isActive: c }))} />
@@ -159,13 +170,9 @@ export default function AdminProducts() {
                 {products?.map((product) => (
                   <TableRow key={product.id} className="border-border">
                     <TableCell>
-                      {product.imageUrl && (product.imageUrl.startsWith("http") || product.imageUrl.startsWith("/") || product.imageUrl.startsWith("data:")) ? (
-                        <img src={product.imageUrl} alt={product.name} className="w-12 h-12 object-cover bg-muted rounded-xl" />
-                      ) : (
-                        <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl">
-                          {product.imageUrl || "📦"}
-                        </div>
-                      )}
+                      <div className="w-12 h-12 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-2xl overflow-hidden">
+                        <IconDisplay icon={resolveIcon(product)} alt={product.name} imgClassName="w-8 h-8 object-contain" />
+                      </div>
                     </TableCell>
                     <TableCell className="font-medium text-white">{product.name}</TableCell>
                     <TableCell>{product.category}</TableCell>

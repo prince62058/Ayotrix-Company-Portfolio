@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { ArrowRight, ArrowUpRight, CheckCircle, MessageCircle, Zap, Shield, Globe, Users, TrendingUp } from "lucide-react";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
+import { useGetProducts } from "@workspace/api-client-react";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
+import { PRODUCTS } from "@/lib/static-data";
 
 const PLATFORMS = [
   {
@@ -91,19 +94,32 @@ const PLATFORMS = [
   },
 ];
 
-const FLOATING_ICONS = [
-  { icon: "💬", color: "#25D366", x: "8%", y: "18%", size: 48, delay: 0 },
-  { icon: "📡", color: "#2563EB", x: "88%", y: "12%", size: 42, delay: 0.4 },
-  { icon: "📸", color: "#E1306C", x: "5%", y: "72%", size: 44, delay: 0.8 },
-  { icon: "🔍", color: "#4285F4", x: "91%", y: "68%", size: 40, delay: 0.6 },
-  { icon: "🤖", color: "#8B5CF6", x: "50%", y: "8%", size: 36, delay: 1.0 },
-  { icon: "⚡", color: "#F59E0B", x: "22%", y: "88%", size: 32, delay: 1.2 },
-  { icon: "🌐", color: "#06B6D4", x: "78%", y: "85%", size: 34, delay: 0.3 },
+const FLOATING_LAYOUT = [
+  { color: "#25D366", x: "8%", y: "18%", size: 48, delay: 0 },
+  { color: "#2563EB", x: "88%", y: "12%", size: 42, delay: 0.4 },
+  { color: "#E1306C", x: "5%", y: "72%", size: 44, delay: 0.8 },
+  { color: "#4285F4", x: "91%", y: "68%", size: 40, delay: 0.6 },
+  { color: "#8B5CF6", x: "50%", y: "8%", size: 36, delay: 1.0 },
+  { color: "#F59E0B", x: "22%", y: "88%", size: 32, delay: 1.2 },
+  { color: "#06B6D4", x: "78%", y: "85%", size: 34, delay: 0.3 },
 ];
+
+const DEFAULT_FLOAT_ICONS = ["💬", "📡", "📸", "🔍", "🤖", "⚡", "🌐"];
 
 export default function MessagingSection() {
   const [activeTab, setActiveTab] = useState(0);
   const active = PLATFORMS[activeTab];
+  const { data: apiProducts } = useGetProducts();
+
+  const floatingIcons = useMemo(() => {
+    const products = apiProducts && apiProducts.length > 0
+      ? (apiProducts as any[]).filter(p => p.isActive !== false)
+      : PRODUCTS;
+    return FLOATING_LAYOUT.map((layout, i) => ({
+      ...layout,
+      icon: resolveIcon(products[i % products.length], DEFAULT_FLOAT_ICONS[i]),
+    }));
+  }, [apiProducts]);
 
   return (
     <section className="relative overflow-hidden py-24" style={{ background: "linear-gradient(180deg, #F5FBF0 0%, #EEF8E6 50%, #F5FBF0 100%)" }}>
@@ -150,15 +166,15 @@ export default function MessagingSection() {
               </svg>
             </div>
 
-            {FLOATING_ICONS.map((fi, i) => (
+            {floatingIcons.map((fi, i) => (
               <motion.div
                 key={i}
-                className="absolute hidden md:flex items-center justify-center rounded-2xl shadow-xl"
+                className="absolute hidden md:flex items-center justify-center rounded-2xl shadow-xl overflow-hidden"
                 style={{ left: fi.x, top: fi.y, width: fi.size, height: fi.size, background: `${fi.color}22`, border: `1px solid ${fi.color}44`, fontSize: fi.size * 0.45 }}
                 animate={{ y: [0, -10, 0], rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 4 + i * 0.5, delay: fi.delay, repeat: Infinity, ease: "easeInOut" }}
               >
-                {fi.icon}
+                <IconDisplay icon={fi.icon} imgClassName="w-[60%] h-[60%] object-contain" />
               </motion.div>
             ))}
 

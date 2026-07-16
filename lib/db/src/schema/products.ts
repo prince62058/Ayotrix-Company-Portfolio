@@ -28,6 +28,7 @@ export const insertProductSchema = z.object({
   name: z.string(),
   description: z.string(),
   imageUrl: z.string(),
+  icon: z.string().optional(),
   category: z.string(),
   isActive: z.boolean().optional().default(true),
   sortOrder: z.number().optional().default(0),
@@ -40,6 +41,7 @@ export type Product = {
   name: string;
   description: string;
   imageUrl: string;
+  icon?: string;
   category: string;
   isActive: boolean;
   sortOrder: number;

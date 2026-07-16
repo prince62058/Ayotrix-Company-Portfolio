@@ -24,6 +24,7 @@ export default function AdminSettings() {
   const [form, setForm] = useState({
     logoUrl: "",
     companyName: "",
+    contactPerson: "",
     phone: "",
     email: "",
     address: "",
@@ -43,6 +44,7 @@ export default function AdminSettings() {
       setForm({
         logoUrl: settings.logoUrl || "",
         companyName: settings.companyName || "",
+        contactPerson: settings.contactPerson || "",
         phone: settings.phone || "",
         email: settings.email || "",
         address: settings.address || "",
@@ -157,6 +159,12 @@ export default function AdminSettings() {
             <div className="space-y-2">
               <Label className="text-slate-300 flex items-center gap-2"><Building2 className="w-4 h-4" /> Company Name</Label>
               <Input value={form.companyName} onChange={e => setForm(p => ({ ...p, companyName: e.target.value }))} className="bg-background rounded-xl" placeholder="Ayotrix Infotech" />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-slate-300">Contact Person</Label>
+              <Input value={form.contactPerson} onChange={e => setForm(p => ({ ...p, contactPerson: e.target.value }))} className="bg-background rounded-xl" placeholder="Subham Pandey, CEO" />
+              <p className="text-xs text-muted-foreground">Shown on the Contact page Direct Line card.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -10,6 +10,7 @@ import RootLayout from "@/components/layout/RootLayout";
 import AdminLayout from "@/components/layout/AdminLayout";
 
 import Home from "@/pages/Home";
+import About from "@/pages/About";
 import Services from "@/pages/Services";
 import ServiceDetail from "@/pages/ServiceDetail";
 import Products from "@/pages/Products";
@@ -17,6 +18,8 @@ import ProductDetail from "@/pages/ProductDetail";
 import DigitalMarketing from "@/pages/DigitalMarketing";
 import DigitalMarketingServiceDetail from "@/pages/DigitalMarketingServiceDetail";
 import Contact from "@/pages/Contact";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
 
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
@@ -37,6 +40,7 @@ function MainRouter() {
     <RootLayout>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
         <Route path="/services" component={Services} />
         <Route path="/services/:slug" component={ServiceDetail} />
         <Route path="/products" component={Products} />
@@ -44,6 +48,8 @@ function MainRouter() {
         <Route path="/digital-marketing" component={DigitalMarketing} />
         <Route path="/digital-marketing/:slug" component={DigitalMarketingServiceDetail} />
         <Route path="/contact" component={Contact} />
+        <Route path="/privacy-policy" component={PrivacyPolicy} />
+        <Route path="/terms-of-service" component={TermsOfService} />
         <Route component={NotFound} />
       </Switch>
     </RootLayout>
@@ -74,8 +80,9 @@ function DynamicBranding() {
 
   useEffect(() => {
     if (settings) {
-      if (settings.companyName) {
-        document.title = `${settings.companyName} - IT Company Website`;
+      // Page-level SeoHead owns document.title; only set a fallback when none is present.
+      if (settings.companyName && (!document.title || document.title.includes("IT Company Website"))) {
+        document.title = `${settings.companyName} | App Development & Digital Growth`;
       }
       if (settings.logoUrl) {
         const link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;

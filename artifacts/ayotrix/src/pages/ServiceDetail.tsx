@@ -8,6 +8,8 @@ import InquiryForm from "@/components/InquiryForm";
 import { SERVICES } from "@/lib/static-data";
 import type { InquiryFormType } from "@/components/InquiryForm";
 import { useGetServices } from "@workspace/api-client-react";
+import SeoHead from "@/components/SeoHead";
+import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 
 export default function ServiceDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -17,6 +19,7 @@ export default function ServiceDetail() {
   if (!service) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4 pt-24">
+        <SeoHead title="Service Not Found | Ayotrix" description="The requested service page was not found." path={`/services/${slug || ""}`} noindex />
         <div className="text-6xl mb-6">🔍</div>
         <h2 className="text-3xl font-bold mb-4" style={{ color: "#0A1628" }}>Service Not Found</h2>
         <p className="text-muted-foreground mb-8">The service you're looking for doesn't exist.</p>
@@ -27,6 +30,20 @@ export default function ServiceDetail() {
 
   return (
     <div className="min-h-screen bg-white pb-20">
+      <SeoHead
+        title={`${service.name} | Ayotrix Infotech`}
+        description={service.description || service.tagline || `Professional ${service.name} by Ayotrix Infotech in Bhopal.`}
+        path={`/services/${service.slug}`}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Service",
+          name: service.name,
+          description: service.description,
+          provider: { "@type": "Organization", name: "Ayotrix Infotech", url: "https://ayotrix.com" },
+          areaServed: "IN",
+          url: `https://ayotrix.com/services/${service.slug}`,
+        }}
+      />
       {/* Hero */}
       <section className="relative overflow-hidden pt-32 pb-24" style={{ background: service.gradient }}>
         <div className="absolute inset-0 pointer-events-none">
@@ -43,8 +60,8 @@ export default function ServiceDetail() {
               Application Development
             </div>
             <div className="flex items-center gap-5 mb-6">
-              <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl" style={{ background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.25)" }}>
-                {service.icon}
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center text-4xl overflow-hidden" style={{ background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.25)" }}>
+                <IconDisplay icon={resolveIcon(service)} alt={service.name} imgClassName="w-12 h-12 object-contain" />
               </div>
             </div>
             <h1 className="text-4xl md:text-7xl font-black text-white leading-tight mb-4">

@@ -1,0 +1,19 @@
+# Fallback when Node proxy is not active: serve the prebuilt SPA.
+# Hostinger Node apps normally inject their own rules; keep this minimal.
+
+DirectoryIndex index.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # If request is already under the SPA public folder, leave it alone
+  RewriteRule ^artifacts/api-server/dist/public/ - [L]
+
+  # Serve existing files from repo root as-is
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # Otherwise map to SPA
+  RewriteRule ^(.*)$ artifacts/api-server/dist/public/$1 [L]
+</IfModule>

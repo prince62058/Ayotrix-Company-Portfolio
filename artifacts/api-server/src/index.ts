@@ -6,7 +6,7 @@ const port = Number(rawPort);
 
 // Only start the server if we are not running in a Vercel serverless environment
 if (!process.env.VERCEL) {
-  app.listen(port, (err) => {
+  app.listen(port, "0.0.0.0", (err) => {
     if (err) {
       logger.error({ err }, "Error listening on port");
       process.exit(1);

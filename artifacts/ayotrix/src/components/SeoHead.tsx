@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 const SITE_URL = "https://ayotrix.com";
-const DEFAULT_OG = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG = `${SITE_URL}/og-image.jpg`;
 
 export interface SeoHeadProps {
   title: string;

@@ -7,9 +7,10 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "build": "node -e \"const fs=require('fs');const p='artifacts/api-server/dist/index.mjs';if(!fs.existsSync(p)){console.error('Missing prebuilt '+p+'. Run locally: pnpm run build:release');process.exit(1)} console.log('Prebuilt bundle OK:', p);\"",
+    "build:full": "pnpm run typecheck && pnpm -r --if-present run build",
     "build:release": "pnpm --filter @workspace/ayotrix run build && pnpm --filter @workspace/api-server run build && node scripts/copy-frontend-to-api.mjs",
-    "build:hostinger": "node -e \"const fs=require('fs');const p='artifacts/api-server/dist/index.mjs';if(!fs.existsSync(p)){console.error('Missing prebuilt '+p+'. Run: pnpm run build:release');process.exit(1)} console.log('Prebuilt bundle OK:', p);\"",
+    "build:hostinger": "npm run build",
     "start": "node artifacts/api-server/dist/index.mjs",
     "dev": "npx pnpm --parallel --filter \"./artifacts/**\" run dev",
     "typecheck:libs": "tsc --build",

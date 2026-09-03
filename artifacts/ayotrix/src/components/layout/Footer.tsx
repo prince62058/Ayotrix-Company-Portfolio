@@ -122,7 +122,7 @@ export default function Footer() {
                 { label: "All Services", href: "/services" },
                 { label: "All Products", href: "/products" },
                 { label: "Contact Us", href: "/contact" },
-                { label: "Mobile App (Play Store)", href: "/app" },
+                { label: "MarketingKart App (Play Store)", href: "/app" },
                 { label: "User Ban / Security", href: "/banned-users" },
               ].map(({ label, href }) => (
                 <li key={label}>

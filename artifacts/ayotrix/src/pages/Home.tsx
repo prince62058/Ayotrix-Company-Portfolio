@@ -11,6 +11,7 @@ import { useGetBanners, useGetServices, useGetProducts, useGetSiteSettings } fro
 import SeoHead from "@/components/SeoHead";
 import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 import { useToast } from "@/hooks/use-toast";
+import appIconImg from "@assets/marketingkart-icon.png";
 
 const HERO_SLIDES = [
   {
@@ -390,8 +391,8 @@ function PlayStoreAppSection() {
 
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
                 Get the Official{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
-                  Ayotrix Mobile App
+                <span className="bg-gradient-to-r from-red-500 via-orange-400 to-amber-300 bg-clip-text text-transparent">
+                  MarketingKart.ai App
                 </span>
               </h2>
 
@@ -458,11 +459,17 @@ function PlayStoreAppSection() {
               <div className="w-full max-w-[300px] rounded-[32px] p-2.5 bg-gradient-to-b from-slate-700 to-slate-900 border border-slate-700/60 shadow-2xl">
                 <div className="rounded-[24px] bg-slate-950 p-5 space-y-4 border border-slate-800/80">
                   <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-black text-xl text-white shadow-lg">
-                      A
+                    <div className="w-12 h-12 rounded-xl p-1.5 bg-gradient-to-tr from-red-500/20 via-orange-500/20 to-amber-500/10 border border-orange-500/30 flex items-center justify-center bg-white/5 shadow-lg">
+                      <img
+                        src={appIconImg}
+                        alt="MarketingKart.ai Logo"
+                        className="w-full h-full object-contain drop-shadow"
+                      />
                     </div>
                     <div>
-                      <h4 className="font-bold text-white text-sm">Ayotrix App</h4>
+                      <h4 className="font-bold text-white text-sm">
+                        MarketingKart<span className="text-orange-500">.ai</span> App
+                      </h4>
                       <p className="text-[11px] text-emerald-400 font-medium">Verified by Google Play</p>
                     </div>
                   </div>
@@ -472,7 +479,7 @@ function PlayStoreAppSection() {
                     <div className="mx-auto w-28 h-28 bg-white p-1.5 rounded-lg flex items-center justify-center">
                       <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(playStoreUrl)}`}
-                        alt="QR code to download Ayotrix app"
+                        alt="QR code to download MarketingKart.ai app"
                         className="w-full h-full object-contain"
                       />
                     </div>

@@ -23,6 +23,8 @@ import { Badge } from "@/components/ui/badge";
 import { useGetSiteSettings } from "@workspace/api-client-react";
 import SeoHead from "@/components/SeoHead";
 import { useToast } from "@/hooks/use-toast";
+import appIconImg from "@assets/marketingkart-icon.png";
+import appLogoImg from "@assets/marketingkart-logo.png";
 
 export default function AppDownload() {
   const { data: settings } = useGetSiteSettings();
@@ -79,8 +81,8 @@ export default function AppDownload() {
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-36 md:pt-40 pb-20">
       <SeoHead
-        title="Download Ayotrix Mobile App | Official Google Play Store"
-        description="Download the official Ayotrix app from Google Play Store to manage your projects, track developments, launch WhatsApp marketing campaigns, and get live support."
+        title="Download MarketingKart.ai Mobile App | Official Google Play Store"
+        description="Download the official MarketingKart.ai app from Google Play Store to manage your projects, track developments, launch WhatsApp & RCS campaigns, and get live support."
         path="/app"
       />
 
@@ -90,7 +92,7 @@ export default function AppDownload() {
           <div
             className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full blur-[140px]"
             style={{
-              background: "radial-gradient(circle, rgba(37,99,235,0.25) 0%, rgba(16,185,129,0.15) 50%, transparent 80%)",
+              background: "radial-gradient(circle, rgba(234,56,41,0.22) 0%, rgba(255,107,0,0.15) 50%, transparent 80%)",
             }}
           />
         </div>
@@ -104,15 +106,15 @@ export default function AppDownload() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-xs font-semibold">
                 <ShieldCheck className="w-4 h-4 text-emerald-400" />
                 Verified by Google Play Protect
               </div>
 
               <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.1] text-white">
                 Download the Official{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
-                  Ayotrix Mobile App
+                <span className="bg-gradient-to-r from-red-500 via-orange-400 to-amber-300 bg-clip-text text-transparent">
+                  MarketingKart.ai App
                 </span>
               </h1>
 
@@ -209,13 +211,17 @@ export default function AppDownload() {
                 {/* Inner Screen */}
                 <div className="rounded-[28px] overflow-hidden bg-slate-900 border border-slate-800 pt-10 pb-6 px-5 space-y-4">
                   <div className="text-center pt-2">
-                    <div className="w-16 h-16 rounded-2xl mx-auto mb-3 bg-gradient-to-tr from-blue-600 to-cyan-500 p-0.5 shadow-lg shadow-blue-500/30 flex items-center justify-center">
-                      <div className="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center font-black text-2xl text-white">
-                        A
-                      </div>
+                    <div className="w-18 h-18 mx-auto mb-3 p-2 rounded-2xl bg-gradient-to-tr from-red-500/20 via-orange-500/20 to-amber-500/10 border border-orange-500/30 shadow-xl shadow-orange-500/20 flex items-center justify-center bg-white/5 backdrop-blur-sm">
+                      <img
+                        src={appIconImg}
+                        alt="MarketingKart.ai App Logo"
+                        className="w-14 h-14 object-contain drop-shadow-md"
+                      />
                     </div>
-                    <h3 className="font-bold text-white text-base">Ayotrix Mobile App</h3>
-                    <p className="text-xs text-blue-400 mt-0.5 font-medium">Digital Agency & Growth Portal</p>
+                    <h3 className="font-bold text-white text-base tracking-tight">
+                      MarketingKart<span className="text-orange-500">.ai</span> App
+                    </h3>
+                    <p className="text-xs text-orange-400 mt-0.5 font-medium">AI Marketing & Growth Portal</p>
                   </div>
 
                   {/* QR Box */}
@@ -225,7 +231,7 @@ export default function AppDownload() {
                       {/* Generative QR visual representation */}
                       <img
                         src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(playStoreUrl)}`}
-                        alt="Scan to download Ayotrix app on Google Play"
+                        alt="Scan to download MarketingKart.ai app on Google Play"
                         className="w-full h-full object-contain"
                       />
                     </div>
@@ -254,7 +260,7 @@ export default function AppDownload() {
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center max-w-xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-3xl font-black text-white">
-              Why Install the Ayotrix App?
+              Why Install the MarketingKart.ai App?
             </h2>
             <p className="text-sm text-slate-400 mt-2">
               Everything you need to grow your brand and scale your software solutions, right in your pocket.

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Copy, Check, ExternalLink, X, Smartphone } from "lucide-react";
 import { useGetSiteSettings } from "@workspace/api-client-react";
 import { useToast } from "@/hooks/use-toast";
+import appIconImg from "@assets/marketingkart-icon.png";
 
 export default function TopAppBanner() {
   const { data: settings } = useGetSiteSettings();
@@ -39,11 +40,11 @@ export default function TopAppBanner() {
     >
       <div className="container mx-auto max-w-7xl flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 overflow-hidden">
-          <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-[10px] tracking-wide uppercase">
-            <Smartphone className="w-3 h-3" /> Live
+          <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 font-bold text-[10px] tracking-wide uppercase">
+            <img src={appIconImg} alt="MarketingKart" className="w-3.5 h-3.5 object-contain" /> Live
           </span>
           <p className="truncate font-medium text-[11px] sm:text-xs text-slate-200">
-            <span className="font-bold text-white">MarketingKart App</span> is live on Google Play Store!
+            <span className="font-bold text-white">MarketingKart.ai App</span> is live on Google Play Store!
           </p>
         </div>
 

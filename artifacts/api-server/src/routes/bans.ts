@@ -1,8 +1,140 @@
 import { Router, type Request, type Response } from "express";
-import { BannedUserModel } from "@workspace/db";
+import { BannedUserModel, SiteSettingsModel } from "@workspace/db";
 import { requireAdmin } from "../middlewares/auth";
 
 const router = Router();
+
+// GET /bans/check - Public Ban Status Lookup
+router.get("/bans/check", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { query } = req.query;
+    if (!query || typeof query !== "string" || !query.trim()) {
+      res.status(400).json({ error: "Please provide an email, phone number, or IP to check." });
+      return;
+    }
+
+    const term = query.trim().toLowerCase();
+    const regex = new RegExp(`^${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}$`, "i");
+
+    const ban = await BannedUserModel.findOne({
+      isActive: true,
+      $or: [
+        { value: regex },
+        { email: regex },
+        { phone: regex },
+        { ip: regex },
+      ],
+    });
+
+    if (!ban) {
+      res.json({
+        isBanned: false,
+        query: term,
+        message: "No active restriction found for this identifier.",
+      });
+      return;
+    }
+
+    const now = new Date();
+    if (ban.expiresAt && new Date(ban.expiresAt) <= now) {
+      res.json({
+        isBanned: false,
+        query: term,
+        message: "Previous restriction has expired.",
+      });
+      return;
+    }
+
+    res.json({
+      isBanned: true,
+      query: term,
+      type: ban.type,
+      reason: ban.reason || "Policy violation / spam protection",
+      bannedAt: ban.createdAt ? ban.createdAt.toISOString() : null,
+      expiresAt: ban.expiresAt ? ban.expiresAt.toISOString() : null,
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Failed to check ban status" });
+  }
+});
+
+// POST /bans/quick - Quick Ban or Unban with site password or admin session
+router.post("/bans/quick", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { password, action, value, type = "email", reason } = req.body;
+
+    // Check authorization
+    const settings = await SiteSettingsModel.findOne({ key: "main" });
+    const validPassword = settings?.password || "525252";
+
+    const isAdminSession = !!(req.session as any)?.ayotrix_admin;
+    if (!isAdminSession && (!password || password !== validPassword)) {
+      res.status(401).json({ error: "Invalid password. Security authorization required." });
+      return;
+    }
+
+    if (!value || typeof value !== "string" || !value.trim()) {
+      res.status(400).json({ error: "Identifier (Email, Phone, or IP) is required." });
+      return;
+    }
+
+    const normalizedValue = value.trim().toLowerCase();
+
+    if (action === "unban") {
+      const ban = await BannedUserModel.findOne({
+        $or: [
+          { value: normalizedValue },
+          { email: normalizedValue },
+          { phone: normalizedValue },
+          { ip: normalizedValue },
+        ],
+      });
+
+      if (!ban) {
+        res.status(404).json({ error: "No restriction found for this identifier." });
+        return;
+      }
+
+      ban.isActive = false;
+      await ban.save();
+      res.json({ success: true, message: `Successfully unbanned ${normalizedValue}` });
+      return;
+    }
+
+    // Default: Ban action
+    let ban = await BannedUserModel.findOne({
+      $or: [
+        { value: normalizedValue },
+        { email: normalizedValue },
+        { phone: normalizedValue },
+        { ip: normalizedValue },
+      ],
+    });
+
+    if (ban) {
+      ban.isActive = true;
+      ban.reason = reason || ban.reason || "Administrative restriction";
+      await ban.save();
+      res.json({ success: true, message: `Updated and reactivated ban for ${normalizedValue}` });
+      return;
+    }
+
+    ban = await BannedUserModel.create({
+      type,
+      value: normalizedValue,
+      email: type === "email" ? normalizedValue : "",
+      phone: type === "phone" ? normalizedValue : "",
+      ip: type === "ip" ? normalizedValue : "",
+      reason: reason || "Administrative restriction",
+      bannedBy: isAdminSession ? (req.session as any)?.ayotrix_admin?.username || "admin" : "quick-tool",
+      isActive: true,
+    });
+
+    res.status(201).json({ success: true, message: `Successfully banned ${normalizedValue}` });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Operation failed" });
+  }
+});
 
 // GET /bans - List all bans with search and status filtering
 router.get("/bans", requireAdmin, async (req: Request, res: Response): Promise<void> => {

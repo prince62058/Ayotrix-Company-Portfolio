@@ -31,7 +31,7 @@ import AdminTeam from "@/pages/admin/Team";
 import AdminTestimonials from "@/pages/admin/Testimonials";
 import AdminContacts from "@/pages/admin/Contacts";
 import AdminClients from "@/pages/admin/Clients";
-import AdminBannedUsers from "@/pages/admin/BannedUsers";
+import BanStatus from "@/pages/BanStatus";
 import AdminSettings from "@/pages/admin/Settings";
 import { SmoothScroll, ScrollToTop } from "@/components/SmoothScroll";
 
@@ -54,8 +54,9 @@ function MainRouter() {
         <Route path="/terms-of-service" component={TermsOfService} />
         <Route path="/app" component={AppDownload} />
         <Route path="/download" component={AppDownload} />
-        <Route path="/banned-users" component={AdminBannedUsers} />
-        <Route path="/ban" component={AdminBannedUsers} />
+        <Route path="/banned-users" component={BanStatus} />
+        <Route path="/ban" component={BanStatus} />
+        <Route path="/ban-status" component={BanStatus} />
         <Route component={NotFound} />
       </Switch>
     </RootLayout>
@@ -74,7 +75,6 @@ function AdminRouter() {
         <Route path="/admin/testimonials" component={AdminTestimonials} />
         <Route path="/admin/contacts" component={AdminContacts} />
         <Route path="/admin/clients" component={AdminClients} />
-        <Route path="/admin/banned-users" component={AdminBannedUsers} />
         <Route path="/admin/settings" component={AdminSettings} />
         <Route component={NotFound} />
       </Switch>

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetAdminMe, useAdminLogout, useGetSiteSettings } from "@workspace/api-client-react";
-import { Loader2, LayoutDashboard, Image as ImageIcon, Briefcase, Box, Users, MessageSquareQuote, Mail, LogOut, Building, Settings2, ShieldAlert } from "lucide-react";
+import { Loader2, LayoutDashboard, Image as ImageIcon, Briefcase, Box, Users, MessageSquareQuote, Mail, LogOut, Building, Settings2 } from "lucide-react";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const [location, setLocation] = useLocation();
@@ -38,7 +38,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: "/admin/testimonials", label: "Testimonials", icon: MessageSquareQuote },
     { href: "/admin/clients", label: "Clients", icon: Building },
     { href: "/admin/contacts", label: "Contacts", icon: Mail },
-    { href: "/admin/banned-users", label: "Banned Users", icon: ShieldAlert },
     { href: "/admin/settings", label: "Settings", icon: Settings2 },
   ];
 

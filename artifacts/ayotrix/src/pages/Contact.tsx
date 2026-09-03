@@ -6,7 +6,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle2 } from "lucide-react";
+import { Link } from "wouter";
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, ShieldAlert } from "lucide-react";
 import SeoHead from "@/components/SeoHead";
 
 const DEFAULTS = {
@@ -210,6 +211,11 @@ export default function Contact() {
                     {mutation.isPending ? "Sending..." : <><Send className="w-4 h-4 mr-2" /> Send Message</>}
                   </Button>
                 </motion.div>
+                <div className="pt-2 text-center">
+                  <Link href="/banned-users" className="text-[11px] text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1">
+                    <ShieldAlert className="w-3 h-3 text-amber-500/80" /> Trouble sending inquiry? Check ban / restriction status
+                  </Link>
+                </div>
               </form>
             )}
           </ScrollReveal>

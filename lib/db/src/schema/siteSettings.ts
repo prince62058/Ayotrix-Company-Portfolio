@@ -62,6 +62,7 @@ export const siteSettingsSchema = new mongoose.Schema({
   privacyPolicyLastUpdated: { type: String, default: "July 29, 2026" },
   termsOfServiceContent: { type: String, default: DEFAULT_TERMS_OF_SERVICE },
   termsOfServiceLastUpdated: { type: String, default: "July 29, 2026" },
+  playStoreUrl: { type: String, default: "https://play.google.com/store/apps/details?id=com.marketingkart.app" },
 }, { timestamps: true });
 
 export const SiteSettingsModel =
@@ -79,6 +80,7 @@ export const updateSiteSettingsSchema = z.object({
   privacyPolicyLastUpdated: z.string().optional(),
   termsOfServiceContent: z.string().optional(),
   termsOfServiceLastUpdated: z.string().optional(),
+  playStoreUrl: z.string().optional(),
 });
 
 export const changePasswordSchema = z.object({
@@ -99,4 +101,5 @@ export type SiteSettings = {
   privacyPolicyLastUpdated?: string;
   termsOfServiceContent?: string;
   termsOfServiceLastUpdated?: string;
+  playStoreUrl?: string;
 };

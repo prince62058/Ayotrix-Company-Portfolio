@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Smartphone } from "lucide-react";
 import logoImg from "@assets/a_logo_(1)_1781854062528.png";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import { useGetSiteSettings, useGetServices, useGetProducts } from "@workspace/api-client-react";
@@ -178,6 +178,14 @@ export default function Navbar() {
             >
               Contact
             </Link>
+            <Link
+              href="/app"
+              className="relative px-3 py-2 text-[14px] font-bold transition-all duration-200 rounded-full select-none whitespace-nowrap flex items-center gap-1.5"
+              style={{ color: isActive("/app") ? "#2563EB" : "#10B981", background: isActive("/app") ? "rgba(29,99,238,0.08)" : "rgba(16,185,129,0.08)" }}
+            >
+              <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+              App
+            </Link>
           </div>
 
           <div className="hidden md:block w-px h-5 shrink-0 mx-1" style={{ background: "rgba(0,0,0,0.08)" }} />
@@ -277,6 +285,13 @@ export default function Navbar() {
                 </Link>
                 <Link href="/contact" onClick={() => setMobileOpen(false)} className="flex items-center px-4 py-2.5 rounded-xl text-sm font-semibold" style={{ color: "rgba(30,45,80,0.65)" }}>
                   Contact
+                </Link>
+                <Link href="/app" onClick={() => setMobileOpen(false)} className="flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-bold text-emerald-600 bg-emerald-50/70 border border-emerald-200/50">
+                  <span className="flex items-center gap-2">
+                    <Smartphone className="w-4 h-4 text-emerald-500" />
+                    Download App
+                  </span>
+                  <span className="text-[10px] bg-emerald-500 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Play Store</span>
                 </Link>
 
                 <div className="mt-2 pt-3" style={{ borderTop: "1px solid rgba(0,0,0,0.06)" }}>

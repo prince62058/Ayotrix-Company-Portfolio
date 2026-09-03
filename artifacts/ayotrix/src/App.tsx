@@ -20,6 +20,7 @@ import DigitalMarketingServiceDetail from "@/pages/DigitalMarketingServiceDetail
 import Contact from "@/pages/Contact";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
+import AppDownload from "@/pages/AppDownload";
 
 import AdminLogin from "@/pages/admin/Login";
 import AdminDashboard from "@/pages/admin/Dashboard";
@@ -51,6 +52,8 @@ function MainRouter() {
         <Route path="/contact" component={Contact} />
         <Route path="/privacy-policy" component={PrivacyPolicy} />
         <Route path="/terms-of-service" component={TermsOfService} />
+        <Route path="/app" component={AppDownload} />
+        <Route path="/download" component={AppDownload} />
         <Route component={NotFound} />
       </Switch>
     </RootLayout>

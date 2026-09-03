@@ -33,6 +33,7 @@ export default function AdminSettings() {
     privacyPolicyLastUpdated: "",
     termsOfServiceContent: "",
     termsOfServiceLastUpdated: "",
+    playStoreUrl: "https://play.google.com/store/apps/details?id=com.marketingkart.app",
   });
 
   const [pwForm, setPwForm] = useState({
@@ -57,6 +58,7 @@ export default function AdminSettings() {
         privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated || "July 16, 2026",
         termsOfServiceContent: settings.termsOfServiceContent || "",
         termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated || "July 16, 2026",
+        playStoreUrl: (settings as any).playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app",
       });
       setLogoPreview(settings.logoUrl || "");
     }
@@ -80,7 +82,7 @@ export default function AdminSettings() {
 
   const handleSaveSettings = (e: React.FormEvent) => {
     e.preventDefault();
-    updateSettings.mutate({ data: form }, {
+    updateSettings.mutate({ data: form as any }, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: getGetAdminSiteSettingsQueryKey() });
         toast({ title: "Settings saved!", description: "Site settings updated successfully." });
@@ -190,6 +192,19 @@ export default function AdminSettings() {
             <div className="space-y-2">
               <Label className="text-slate-300 flex items-center gap-2"><MapPin className="w-4 h-4" /> Address</Label>
               <Input value={form.address} onChange={e => setForm(p => ({ ...p, address: e.target.value }))} className="bg-background rounded-xl" placeholder="Bhopal, Madhya Pradesh" />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-slate-300 flex items-center gap-2">
+                <span className="text-emerald-400 font-bold text-xs">▶</span> Google Play Store App Link
+              </Label>
+              <Input
+                value={(form as any).playStoreUrl || ""}
+                onChange={e => setForm(p => ({ ...p, playStoreUrl: e.target.value }))}
+                className="bg-background rounded-xl font-mono text-xs"
+                placeholder="https://play.google.com/store/apps/details?id=com.ayotrix.app"
+              />
+              <p className="text-xs text-muted-foreground">This link powers the "Get it on Google Play" buttons across the website and /app download page.</p>
             </div>
 
             <Button type="submit" disabled={updateSettings.isPending} className="rounded-xl" style={{ background: "linear-gradient(135deg, #1263E8, #6EDD00)" }}>

@@ -99552,7 +99552,8 @@ var siteSettingsSchema = new import_mongoose8.default.Schema({
   privacyPolicyContent: { type: String, default: DEFAULT_PRIVACY_POLICY },
   privacyPolicyLastUpdated: { type: String, default: "July 29, 2026" },
   termsOfServiceContent: { type: String, default: DEFAULT_TERMS_OF_SERVICE },
-  termsOfServiceLastUpdated: { type: String, default: "July 29, 2026" }
+  termsOfServiceLastUpdated: { type: String, default: "July 29, 2026" },
+  playStoreUrl: { type: String, default: "https://play.google.com/store/apps/details?id=com.marketingkart.app" }
 }, { timestamps: true });
 var SiteSettingsModel = import_mongoose8.default.models.SiteSettings || import_mongoose8.default.model("SiteSettings", siteSettingsSchema);
 var updateSiteSettingsSchema = external_exports.object({
@@ -99565,7 +99566,8 @@ var updateSiteSettingsSchema = external_exports.object({
   privacyPolicyContent: external_exports.string().optional(),
   privacyPolicyLastUpdated: external_exports.string().optional(),
   termsOfServiceContent: external_exports.string().optional(),
-  termsOfServiceLastUpdated: external_exports.string().optional()
+  termsOfServiceLastUpdated: external_exports.string().optional(),
+  playStoreUrl: external_exports.string().optional()
 });
 var changePasswordSchema = external_exports.object({
   currentPassword: external_exports.string(),
@@ -100086,7 +100088,8 @@ router10.get("/admin/site-settings", requireAdmin, async (req, res) => {
     privacyPolicyContent: settings.privacyPolicyContent,
     privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
     termsOfServiceContent: settings.termsOfServiceContent,
-    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
+    playStoreUrl: settings.playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app"
   });
 });
 router10.put("/admin/site-settings", requireAdmin, async (req, res) => {
@@ -100100,7 +100103,8 @@ router10.put("/admin/site-settings", requireAdmin, async (req, res) => {
     privacyPolicyContent,
     privacyPolicyLastUpdated,
     termsOfServiceContent,
-    termsOfServiceLastUpdated
+    termsOfServiceLastUpdated,
+    playStoreUrl
   } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
@@ -100115,7 +100119,8 @@ router10.put("/admin/site-settings", requireAdmin, async (req, res) => {
         privacyPolicyContent,
         privacyPolicyLastUpdated,
         termsOfServiceContent,
-        termsOfServiceLastUpdated
+        termsOfServiceLastUpdated,
+        playStoreUrl
       }
     },
     { upsert: true }
@@ -100134,7 +100139,8 @@ router10.get("/site-settings", async (req, res) => {
     privacyPolicyContent: settings.privacyPolicyContent,
     privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
     termsOfServiceContent: settings.termsOfServiceContent,
-    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
+    playStoreUrl: settings.playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app"
   });
 });
 var admin_default = router10;

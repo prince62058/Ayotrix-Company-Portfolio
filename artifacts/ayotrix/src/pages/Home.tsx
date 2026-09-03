@@ -2,14 +2,15 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, ChevronRight, CheckCircle2, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ChevronRight, CheckCircle2, ArrowUpRight, Smartphone, Star, ShieldCheck, Download, Copy, Check } from "lucide-react";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { Card3D } from "@/components/ui/card-3d";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import MessagingSection from "@/components/MessagingSection";
-import { useGetBanners, useGetServices, useGetProducts } from "@workspace/api-client-react";
+import { useGetBanners, useGetServices, useGetProducts, useGetSiteSettings } from "@workspace/api-client-react";
 import SeoHead from "@/components/SeoHead";
 import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
+import { useToast } from "@/hooks/use-toast";
 
 const HERO_SLIDES = [
   {
@@ -338,6 +339,153 @@ function DigitalMarketingSection() {
   );
 }
 
+function PlayStoreAppSection() {
+  const { data: settings } = useGetSiteSettings();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
+
+  const playStoreUrl =
+    (settings as any)?.playStoreUrl ||
+    "https://play.google.com/store/apps/details?id=com.marketingkart.app";
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(playStoreUrl);
+    setCopied(true);
+    toast({
+      title: "Play Store Link Copied!",
+      description: "Direct link copied to clipboard. You can now share it.",
+    });
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  return (
+    <section className="relative overflow-hidden py-20" style={{ background: "linear-gradient(180deg, #070D18 0%, #0D1B2A 100%)" }}>
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.2), transparent)" }} />
+        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(16,185,129,0.15), transparent)" }} />
+      </div>
+
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
+        <div className="rounded-3xl border border-slate-800 bg-slate-900/60 backdrop-blur-xl p-8 md:p-14 overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            {/* Left Info */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                Available on Google Play Store
+              </div>
+
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight">
+                Get the Official{" "}
+                <span className="bg-gradient-to-r from-blue-400 via-sky-400 to-emerald-400 bg-clip-text text-transparent">
+                  Ayotrix Mobile App
+                </span>
+              </h2>
+
+              <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-lg">
+                Track your software projects, launch high-ROI WhatsApp & RCS campaigns, calculate instant quotes, and receive 24/7 dedicated support right from your phone.
+              </p>
+
+              <div className="flex flex-wrap items-center gap-4 text-xs text-slate-400">
+                <div className="flex items-center gap-1 text-amber-400 font-bold text-sm">
+                  <Star className="w-4 h-4 fill-amber-400" />
+                  <span>4.9★</span>
+                </div>
+                <span>•</span>
+                <span className="text-slate-300 font-medium">10,000+ Downloads</span>
+                <span>•</span>
+                <span className="text-emerald-400 font-medium">Verified by Google Play Protect</span>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="pt-2 flex flex-wrap items-center gap-3.5">
+                <a
+                  href={playStoreUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all hover:scale-105"
+                >
+                  <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.92L3 2.734c0-.342.22-.683.609-.92zm11.303 11.304l2.585 2.585-11.75 6.78 9.165-9.365zm2.585-2.236l-2.585 2.585L5.747 4.102l11.75 6.78zm1.18 1.118l3.14 1.812a1.002 1.002 0 0 1 0 1.734l-3.14 1.812-2.146-2.679 2.146-2.679z"/>
+                  </svg>
+                  <div className="text-left leading-tight">
+                    <div className="text-[9px] uppercase tracking-wider font-semibold opacity-80">Get it on</div>
+                    <div className="text-base font-black tracking-tight">Google Play</div>
+                  </div>
+                </a>
+
+                <Button
+                  onClick={handleCopy}
+                  variant="outline"
+                  className="rounded-2xl border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-white text-xs font-semibold py-3.5 h-auto gap-2"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 text-emerald-400" />
+                      Link Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 text-sky-400" />
+                      Copy Play Store Link
+                    </>
+                  )}
+                </Button>
+
+                <Button asChild variant="ghost" className="text-blue-400 hover:text-white hover:bg-blue-500/10 text-xs font-semibold rounded-2xl">
+                  <Link href="/app">
+                    App Details <ArrowUpRight className="w-4 h-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+            </div>
+
+            {/* Right Mockup */}
+            <div className="lg:col-span-5 flex justify-center">
+              <div className="w-full max-w-[300px] rounded-[32px] p-2.5 bg-gradient-to-b from-slate-700 to-slate-900 border border-slate-700/60 shadow-2xl">
+                <div className="rounded-[24px] bg-slate-950 p-5 space-y-4 border border-slate-800/80">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-black text-xl text-white shadow-lg">
+                      A
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-white text-sm">Ayotrix App</h4>
+                      <p className="text-[11px] text-emerald-400 font-medium">Verified by Google Play</p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2 text-center">
+                    <p className="text-[11px] font-semibold text-slate-300">Scan QR to install directly</p>
+                    <div className="mx-auto w-28 h-28 bg-white p-1.5 rounded-lg flex items-center justify-center">
+                      <img
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(playStoreUrl)}`}
+                        alt="QR code to download Ayotrix app"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <p className="text-[10px] text-slate-500 font-mono truncate">{playStoreUrl}</p>
+                  </div>
+
+                  <div className="space-y-1.5 text-left text-xs text-slate-400">
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Live project tracking on mobile</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                      <span>Direct WhatsApp / RCS manager</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CTASection() {
   return (
     <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #070D18 0%, #0A1A10 50%, #071428 100%)" }}>
@@ -402,6 +550,7 @@ export default function Home() {
       <ProductsSection />
       <MessagingSection />
       <DigitalMarketingSection />
+      <PlayStoreAppSection />
       <CTASection />
     </div>
   );

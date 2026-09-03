@@ -73,6 +73,7 @@ router.get("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
     privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
     termsOfServiceContent: settings.termsOfServiceContent,
     termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
+    playStoreUrl: settings.playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app",
   });
 });
 
@@ -88,6 +89,7 @@ router.put("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
     privacyPolicyLastUpdated,
     termsOfServiceContent,
     termsOfServiceLastUpdated,
+    playStoreUrl,
   } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
@@ -103,6 +105,7 @@ router.put("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
         privacyPolicyLastUpdated,
         termsOfServiceContent,
         termsOfServiceLastUpdated,
+        playStoreUrl,
       },
     },
     { upsert: true }
@@ -123,6 +126,7 @@ router.get("/site-settings", async (req: Request, res: Response) => {
     privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
     termsOfServiceContent: settings.termsOfServiceContent,
     termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
+    playStoreUrl: settings.playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app",
   });
 });
 

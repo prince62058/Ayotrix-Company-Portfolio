@@ -115,8 +115,15 @@ export default function Footer() {
               ))}
             </ul>
             <h4 className="text-sm font-black uppercase tracking-widest mb-4" style={{ color: "#0A1628" }}>Quick Links</h4>
-            <ul className="space-y-2.5">
-              {[{ label: "Home", href: "/" }, { label: "About", href: "/about" }, { label: "All Services", href: "/services" }, { label: "All Products", href: "/products" }, { label: "Contact Us", href: "/contact" }].map(({ label, href }) => (
+            <ul className="space-y-2.5 mb-4">
+              {[
+                { label: "Home", href: "/" },
+                { label: "About", href: "/about" },
+                { label: "All Services", href: "/services" },
+                { label: "All Products", href: "/products" },
+                { label: "Contact Us", href: "/contact" },
+                { label: "Mobile App (Play Store)", href: "/app" },
+              ].map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href} className="flex items-center gap-1.5 text-sm group" style={{ color: "#64748B" }}>
                     <span className="w-1 h-1 rounded-full shrink-0" style={{ background: "#CBD5E1" }} />
@@ -125,6 +132,23 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+
+            <div className="pt-2">
+              <a
+                href={(settings as any)?.playStoreUrl || "https://play.google.com/store/apps/details?id=com.marketingkart.app"}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition-colors shadow-sm"
+              >
+                <svg className="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.92L3 2.734c0-.342.22-.683.609-.92zm11.303 11.304l2.585 2.585-11.75 6.78 9.165-9.365zm2.585-2.236l-2.585 2.585L5.747 4.102l11.75 6.78zm1.18 1.118l3.14 1.812a1.002 1.002 0 0 1 0 1.734l-3.14 1.812-2.146-2.679 2.146-2.679z"/>
+                </svg>
+                <div className="text-left leading-none">
+                  <div className="text-[8px] uppercase tracking-wider opacity-70">Get it on</div>
+                  <div className="text-xs font-bold mt-0.5">Google Play</div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -138,16 +162,11 @@ export default function Footer() {
             {[
               { label: "Privacy Policy", href: "/privacy-policy" },
               { label: "Terms of Service", href: "/terms-of-service" },
+              { label: "Play Store App", href: "/app" },
+              { label: "Admin Portal", href: "/admin" },
             ].map(({ label, href }) => (
               <Link key={label} href={href} className="text-xs transition-colors hover:text-primary" style={{ color: "#94A3B8" }}>{label}</Link>
             ))}
-            <a
-              href="/admin"
-              className="text-xs transition-colors"
-              style={{ color: "transparent", userSelect: "none" }}
-              title=""
-              aria-hidden="true"
-            >·</a>
           </div>
         </div>
       </div>

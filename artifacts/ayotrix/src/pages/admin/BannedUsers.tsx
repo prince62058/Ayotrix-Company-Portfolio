@@ -90,6 +90,12 @@ export default function AdminBannedUsers() {
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
+  // Direct Site Unlock State
+  const [isAuthError, setIsAuthError] = useState(false);
+  const [sitePassword, setSitePassword] = useState("");
+  const [unlockError, setUnlockError] = useState("");
+  const [isUnlocking, setIsUnlocking] = useState(false);
+
   // Form State
   const [banType, setBanType] = useState<"email" | "ip" | "phone">("email");
   const [banValue, setBanValue] = useState("");
@@ -113,9 +119,14 @@ export default function AdminBannedUsers() {
       if (statusFilter !== "all") params.set("status", statusFilter);
 
       const res = await fetch(`/api/bans?${params.toString()}`);
+      if (res.status === 401) {
+        setIsAuthError(true);
+        return [];
+      }
       if (!res.ok) {
         throw new Error("Failed to load ban list");
       }
+      setIsAuthError(false);
       return res.json();
     },
   });
@@ -125,10 +136,41 @@ export default function AdminBannedUsers() {
     queryKey: ["admin-bans-stats"],
     queryFn: async () => {
       const res = await fetch("/api/bans/stats");
+      if (res.status === 401) return { total: 0, active: 0, bannedEmails: 0, bannedIps: 0, bannedPhones: 0 };
       if (!res.ok) return { total: 0, active: 0, bannedEmails: 0, bannedIps: 0, bannedPhones: 0 };
       return res.json();
     },
   });
+
+  const handleUnlock = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!sitePassword.trim()) {
+      setUnlockError("Please enter the password");
+      return;
+    }
+    setIsUnlocking(true);
+    setUnlockError("");
+    try {
+      const res = await fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: sitePassword.trim() }),
+      });
+      if (!res.ok) {
+        setUnlockError("Incorrect password. Default is 525252.");
+        setIsUnlocking(false);
+        return;
+      }
+      setIsAuthError(false);
+      setIsUnlocking(false);
+      refetch();
+      queryClient.invalidateQueries({ queryKey: ["admin-bans-stats"] });
+      toast({ title: "Unlocked", description: "Banned users manager is now active." });
+    } catch {
+      setUnlockError("Connection error, please try again.");
+      setIsUnlocking(false);
+    }
+  };
 
   // Add Ban Mutation
   const addBanMutation = useMutation({
@@ -245,8 +287,54 @@ export default function AdminBannedUsers() {
     }
   };
 
+  if (isAuthError) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
+        <Card className="w-full max-w-md bg-slate-900 border-slate-800 text-white rounded-2xl shadow-2xl p-6">
+          <CardHeader className="text-center pb-2">
+            <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center mx-auto mb-3">
+              <ShieldAlert className="w-7 h-7" />
+            </div>
+            <CardTitle className="text-2xl font-bold">User Ban Security Portal</CardTitle>
+            <CardDescription className="text-slate-400 text-xs mt-1">
+              Enter admin password to view & manage banned users directly on the site
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 pt-4">
+            <form onSubmit={handleUnlock} className="space-y-4">
+              {unlockError && (
+                <div className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-xl flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4 shrink-0" />
+                  <span>{unlockError}</span>
+                </div>
+              )}
+              <div className="space-y-1.5">
+                <Label className="text-xs text-slate-300">Admin Password</Label>
+                <Input
+                  type="password"
+                  placeholder="Enter Password (default: 525252)"
+                  value={sitePassword}
+                  onChange={(e) => setSitePassword(e.target.value)}
+                  className="bg-slate-950 border-slate-800 rounded-xl text-white"
+                  autoFocus
+                />
+              </div>
+              <Button
+                type="submit"
+                disabled={isUnlocking}
+                className="w-full bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl h-11"
+              >
+                {isUnlocking ? "Verifying..." : "Unlock Ban Manager"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 py-8">
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

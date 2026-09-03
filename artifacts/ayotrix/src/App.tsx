@@ -54,6 +54,8 @@ function MainRouter() {
         <Route path="/terms-of-service" component={TermsOfService} />
         <Route path="/app" component={AppDownload} />
         <Route path="/download" component={AppDownload} />
+        <Route path="/banned-users" component={AdminBannedUsers} />
+        <Route path="/ban" component={AdminBannedUsers} />
         <Route component={NotFound} />
       </Switch>
     </RootLayout>

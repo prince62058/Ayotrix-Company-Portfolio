@@ -14,6 +14,16 @@ import { useToast } from "@/hooks/use-toast";
 
 const HERO_SLIDES = [
   {
+    badge: "Official Mobile App",
+    title: "Download MarketingKart",
+    accent: "On Google Play Store",
+    subtitle: "Launch WhatsApp & RCS marketing campaigns, track live software projects, and calculate instant quotes right from your smartphone.",
+    cta: "Download on Google Play",
+    ctaLink: "https://play.google.com/store/apps/details?id=com.marketingkart.app",
+    tag: "4.9★ on Google Play Store",
+    imageUrl: "",
+  },
+  {
     badge: "Application Development",
     title: "Build World-Class",
     accent: "Mobile & Web Apps",
@@ -59,16 +69,19 @@ function HeroBanner() {
     mY.set((e.clientY - r.top) / r.height);
   }, [mX, mY]);
 
-  const slides = dynamicBanners && dynamicBanners.length > 0 ? dynamicBanners.map(b => ({
-    badge: "Featured",
-    title: b.title,
-    accent: "",
-    subtitle: b.subtitle,
-    cta: b.ctaText,
-    ctaLink: b.ctaLink,
-    tag: "Updated live",
-    imageUrl: b.imageUrl,
-  })) : HERO_SLIDES;
+  const slides = dynamicBanners && dynamicBanners.length > 0 ? [
+    HERO_SLIDES[0],
+    ...dynamicBanners.map(b => ({
+      badge: "Featured",
+      title: b.title,
+      accent: "",
+      subtitle: b.subtitle,
+      cta: b.ctaText,
+      ctaLink: b.ctaLink,
+      tag: "Updated live",
+      imageUrl: b.imageUrl,
+    }))
+  ] : HERO_SLIDES;
 
   useEffect(() => {
     const t = setInterval(() => setCurrent(c => (c + 1) % slides.length), 5500);

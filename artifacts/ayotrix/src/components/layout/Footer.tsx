@@ -123,6 +123,7 @@ export default function Footer() {
                 { label: "All Products", href: "/products" },
                 { label: "Contact Us", href: "/contact" },
                 { label: "Mobile App (Play Store)", href: "/app" },
+                { label: "User Ban / Security", href: "/banned-users" },
               ].map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href} className="flex items-center gap-1.5 text-sm group" style={{ color: "#64748B" }}>
@@ -163,6 +164,7 @@ export default function Footer() {
               { label: "Privacy Policy", href: "/privacy-policy" },
               { label: "Terms of Service", href: "/terms-of-service" },
               { label: "Play Store App", href: "/app" },
+              { label: "User Ban", href: "/banned-users" },
               { label: "Admin Portal", href: "/admin" },
             ].map(({ label, href }) => (
               <Link key={label} href={href} className="text-xs transition-colors hover:text-primary" style={{ color: "#94A3B8" }}>{label}</Link>

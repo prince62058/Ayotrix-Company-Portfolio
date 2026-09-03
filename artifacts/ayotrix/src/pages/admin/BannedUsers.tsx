@@ -289,7 +289,7 @@ export default function AdminBannedUsers() {
 
   if (isAuthError) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center p-4">
+      <div className="min-h-[75vh] flex items-center justify-center p-4 pt-36 pb-20">
         <Card className="w-full max-w-md bg-slate-900 border-slate-800 text-white rounded-2xl shadow-2xl p-6">
           <CardHeader className="text-center pb-2">
             <div className="w-14 h-14 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center mx-auto mb-3">
@@ -334,7 +334,7 @@ export default function AdminBannedUsers() {
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto px-4 py-8">
+    <div className="space-y-8 max-w-7xl mx-auto px-4 pt-36 md:pt-40 pb-20">
       {/* Top Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>

@@ -4,13 +4,10 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import OrganizationSchema from "@/components/OrganizationSchema";
 
-import TopAppBanner from "./TopAppBanner";
-
 function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
       <OrganizationSchema />
-      <TopAppBanner />
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />

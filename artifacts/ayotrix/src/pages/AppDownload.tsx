@@ -77,7 +77,7 @@ export default function AppDownload() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white pt-24 pb-20">
+    <div className="min-h-screen bg-slate-950 text-white pt-36 md:pt-40 pb-20">
       <SeoHead
         title="Download Ayotrix Mobile App | Official Google Play Store"
         description="Download the official Ayotrix app from Google Play Store to manage your projects, track developments, launch WhatsApp marketing campaigns, and get live support."

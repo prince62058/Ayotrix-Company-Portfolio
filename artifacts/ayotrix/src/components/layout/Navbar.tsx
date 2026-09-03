@@ -6,6 +6,7 @@ import logoImg from "@assets/a_logo_(1)_1781854062528.png";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import { useGetSiteSettings, useGetServices, useGetProducts } from "@workspace/api-client-react";
 import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
+import TopAppBanner from "./TopAppBanner";
 
 interface DropdownItem { href: string; label: string; icon: string; }
 
@@ -97,8 +98,12 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-4 pt-3 pointer-events-none">
-        <motion.nav
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col pointer-events-none">
+        <div className="pointer-events-auto w-full">
+          <TopAppBanner />
+        </div>
+        <div className="flex justify-center px-4 pt-2.5 pointer-events-none">
+          <motion.nav
           className="pointer-events-auto flex items-center justify-between gap-2 px-3 py-2 w-full max-w-[1200px]"
           initial={{ y: -60, opacity: 0, scale: 0.9 }}
           animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -226,6 +231,7 @@ export default function Navbar() {
           </div>
         </motion.nav>
       </div>
+    </header>
 
       <AnimatePresence>
         {mobileOpen && (

@@ -187,5 +187,9 @@ export interface SiteSettings {
   phone?: string;
   email?: string;
   address?: string;
+  privacyPolicyContent?: string;
+  privacyPolicyLastUpdated?: string;
+  termsOfServiceContent?: string;
+  termsOfServiceLastUpdated?: string;
 }
 

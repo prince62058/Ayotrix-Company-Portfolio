@@ -50,12 +50,26 @@ export default function Contact() {
           setSubmitted(true);
           toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
         },
-        onError: () => {
-          toast({ title: "Error", description: "Something went wrong. Please try again.", variant: "destructive" });
+        onError: (err: any) => {
+          const message =
+            err?.response?.data?.error ||
+            err?.data?.error ||
+            err?.message ||
+            "Something went wrong. Please try again.";
+          const isBanned =
+            err?.response?.status === 403 ||
+            err?.status === 403 ||
+            (typeof message === "string" && message.toLowerCase().includes("denied"));
+          toast({
+            title: isBanned ? "Access Restricted" : "Submission Failed",
+            description: message,
+            variant: "destructive",
+          });
         },
       }
     );
   };
+
 
   return (
     <div className="min-h-screen pb-20">

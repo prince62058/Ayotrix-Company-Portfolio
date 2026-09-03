@@ -402,14 +402,24 @@ export default function InquiryForm({ formType, serviceName }: InquiryFormProps)
       if (res.ok) {
         setSubmitted(true);
       } else {
-        throw new Error("Failed to submit");
+        const errData = await res.json().catch(() => ({}));
+        const message = errData.error || "Failed to submit inquiry. Please try again.";
+        toast({
+          title: res.status === 403 ? "Access Restricted" : "Submission Failed",
+          description: message,
+          variant: "destructive",
+        });
       }
-    } catch {
-      toast({ title: "Submitted!", description: "We'll get back to you within 24 hours.", variant: "default" });
-      setSubmitted(true);
+    } catch (err: any) {
+      toast({
+        title: "Submission Failed",
+        description: err?.message || "Could not connect to the server. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
+
   };
 
   const title = FORM_TITLES[formType] || "Get a Free Quote";

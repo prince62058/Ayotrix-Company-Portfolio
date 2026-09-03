@@ -9,6 +9,7 @@ import clientsRouter from "./clients";
 import contactsRouter from "./contacts";
 import statsRouter from "./stats";
 import adminRouter from "./admin";
+import bansRouter from "./bans";
 
 const router: IRouter = Router();
 
@@ -22,5 +23,6 @@ router.use(clientsRouter);
 router.use(contactsRouter);
 router.use(statsRouter);
 router.use(adminRouter);
+router.use(bansRouter);
 
 export default router;

@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Settings2, Image, Lock, Phone, Mail, MapPin, Building2, Eye, EyeOff, Upload, X } from "lucide-react";
+import { Settings2, Image, Lock, Phone, Mail, MapPin, Building2, Eye, EyeOff, Upload, X, FileText, ShieldAlert } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function AdminSettings() {
   const queryClient = useQueryClient();
@@ -28,6 +29,10 @@ export default function AdminSettings() {
     phone: "",
     email: "",
     address: "",
+    privacyPolicyContent: "",
+    privacyPolicyLastUpdated: "",
+    termsOfServiceContent: "",
+    termsOfServiceLastUpdated: "",
   });
 
   const [pwForm, setPwForm] = useState({
@@ -48,6 +53,10 @@ export default function AdminSettings() {
         phone: settings.phone || "",
         email: settings.email || "",
         address: settings.address || "",
+        privacyPolicyContent: settings.privacyPolicyContent || "",
+        privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated || "July 16, 2026",
+        termsOfServiceContent: settings.termsOfServiceContent || "",
+        termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated || "July 16, 2026",
       });
       setLogoPreview(settings.logoUrl || "");
     }
@@ -185,6 +194,76 @@ export default function AdminSettings() {
 
             <Button type="submit" disabled={updateSettings.isPending} className="rounded-xl" style={{ background: "linear-gradient(135deg, #1263E8, #6EDD00)" }}>
               {updateSettings.isPending ? "Saving..." : "Save Settings"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {/* Privacy Policy & Legal Settings */}
+      <Card className="bg-card border-border rounded-2xl">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-white">
+            <FileText className="w-5 h-5 text-primary" /> Privacy Policy & Legal Pages
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSaveSettings} className="space-y-5">
+            <div className="space-y-2">
+              <Label className="text-slate-300">Privacy Policy - Last Updated Date</Label>
+              <Input
+                value={form.privacyPolicyLastUpdated}
+                onChange={e => setForm(p => ({ ...p, privacyPolicyLastUpdated: e.target.value }))}
+                className="bg-background rounded-xl"
+                placeholder="e.g. July 29, 2026"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-slate-300 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-primary" /> Privacy Policy Content
+              </Label>
+              <p className="text-xs text-muted-foreground">
+                Enter your custom privacy policy text below. Leave blank to use the standard built-in privacy policy. You can use section titles (e.g. 1. Introduction) and separate paragraphs with line breaks.
+              </p>
+              <Textarea
+                rows={10}
+                value={form.privacyPolicyContent}
+                onChange={e => setForm(p => ({ ...p, privacyPolicyContent: e.target.value }))}
+                className="bg-background rounded-xl font-mono text-xs leading-relaxed"
+                placeholder="Enter custom privacy policy text here..."
+              />
+            </div>
+
+            <div className="pt-4 border-t border-border space-y-5">
+              <div className="space-y-2">
+                <Label className="text-slate-300">Terms of Service - Last Updated Date</Label>
+                <Input
+                  value={form.termsOfServiceLastUpdated}
+                  onChange={e => setForm(p => ({ ...p, termsOfServiceLastUpdated: e.target.value }))}
+                  className="bg-background rounded-xl"
+                  placeholder="e.g. July 29, 2026"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-slate-300 flex items-center gap-2">
+                  <ShieldAlert className="w-4 h-4 text-primary" /> Terms of Service Content
+                </Label>
+                <p className="text-xs text-muted-foreground">
+                  Enter your custom Terms of Service text below. Leave blank to use the standard terms.
+                </p>
+                <Textarea
+                  rows={8}
+                  value={form.termsOfServiceContent}
+                  onChange={e => setForm(p => ({ ...p, termsOfServiceContent: e.target.value }))}
+                  className="bg-background rounded-xl font-mono text-xs leading-relaxed"
+                  placeholder="Enter custom terms of service text here..."
+                />
+              </div>
+            </div>
+
+            <Button type="submit" disabled={updateSettings.isPending} className="rounded-xl" style={{ background: "linear-gradient(135deg, #1263E8, #6EDD00)" }}>
+              {updateSettings.isPending ? "Saving..." : "Save Policy Settings"}
             </Button>
           </form>
         </CardContent>

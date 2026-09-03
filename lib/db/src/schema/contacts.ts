@@ -7,6 +7,7 @@ export const contactSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   subject: { type: String, default: null },
   message: { type: String, required: true },
+  ip: { type: String, default: "" },
 }, { timestamps: true });
 
 export const ContactModel = mongoose.models.Contact || mongoose.model("Contact", contactSchema);
@@ -17,6 +18,7 @@ export const insertContactSchema = z.object({
   phone: z.string(),
   subject: z.string().nullable().optional(),
   message: z.string(),
+  ip: z.string().optional(),
 });
 
 export type InsertContact = z.infer<typeof insertContactSchema>;
@@ -28,6 +30,7 @@ export type Contact = {
   phone: string;
   subject: string | null;
   message: string;
+  ip?: string;
   createdAt: Date;
   updatedAt?: Date;
 };

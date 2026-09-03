@@ -6,3 +6,4 @@ export * from "./testimonials";
 export * from "./clients";
 export * from "./contacts";
 export * from "./siteSettings";
+export * from "./bannedUsers";

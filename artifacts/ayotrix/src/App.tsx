@@ -30,8 +30,9 @@ import AdminTeam from "@/pages/admin/Team";
 import AdminTestimonials from "@/pages/admin/Testimonials";
 import AdminContacts from "@/pages/admin/Contacts";
 import AdminClients from "@/pages/admin/Clients";
+import AdminBannedUsers from "@/pages/admin/BannedUsers";
 import AdminSettings from "@/pages/admin/Settings";
-import { SmoothScroll } from "@/components/SmoothScroll";
+import { SmoothScroll, ScrollToTop } from "@/components/SmoothScroll";
 
 const queryClient = new QueryClient();
 
@@ -68,12 +69,14 @@ function AdminRouter() {
         <Route path="/admin/testimonials" component={AdminTestimonials} />
         <Route path="/admin/contacts" component={AdminContacts} />
         <Route path="/admin/clients" component={AdminClients} />
+        <Route path="/admin/banned-users" component={AdminBannedUsers} />
         <Route path="/admin/settings" component={AdminSettings} />
         <Route component={NotFound} />
       </Switch>
     </AdminLayout>
   );
 }
+
 
 function DynamicBranding() {
   const { data: settings } = useGetSiteSettings();
@@ -108,6 +111,7 @@ function App() {
       <SmoothScroll>
         <TooltipProvider>
           <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <ScrollToTop />
             <Switch>
               <Route path="/admin" component={AdminLogin} />
               <Route path="/admin/*" component={AdminRouter} />

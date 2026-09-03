@@ -20498,27 +20498,27 @@ var require_router = __commonJS({
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var methods = METHODS.map((method) => method.toLowerCase());
-    module.exports = Router12;
+    module.exports = Router13;
     module.exports.Route = Route;
-    function Router12(options) {
-      if (!(this instanceof Router12)) {
-        return new Router12(options);
+    function Router13(options) {
+      if (!(this instanceof Router13)) {
+        return new Router13(options);
       }
       const opts = options || {};
-      function router12(req, res, next) {
-        router12.handle(req, res, next);
+      function router13(req, res, next) {
+        router13.handle(req, res, next);
       }
-      Object.setPrototypeOf(router12, this);
-      router12.caseSensitive = opts.caseSensitive;
-      router12.mergeParams = opts.mergeParams;
-      router12.params = {};
-      router12.strict = opts.strict;
-      router12.stack = [];
-      return router12;
+      Object.setPrototypeOf(router13, this);
+      router13.caseSensitive = opts.caseSensitive;
+      router13.mergeParams = opts.mergeParams;
+      router13.params = {};
+      router13.strict = opts.strict;
+      router13.stack = [];
+      return router13;
     }
-    Router12.prototype = function() {
+    Router13.prototype = function() {
     };
-    Router12.prototype.param = function param(name, fn) {
+    Router13.prototype.param = function param(name, fn) {
       if (!name) {
         throw new TypeError("argument name is required");
       }
@@ -20538,7 +20538,7 @@ var require_router = __commonJS({
       params.push(fn);
       return this;
     };
-    Router12.prototype.handle = function handle(req, res, callback) {
+    Router13.prototype.handle = function handle(req, res, callback) {
       if (!callback) {
         throw new TypeError("argument callback is required");
       }
@@ -20665,7 +20665,7 @@ var require_router = __commonJS({
         }
       }
     };
-    Router12.prototype.use = function use(handler) {
+    Router13.prototype.use = function use(handler) {
       let offset = 0;
       let path2 = "/";
       if (typeof handler !== "function") {
@@ -20698,7 +20698,7 @@ var require_router = __commonJS({
       }
       return this;
     };
-    Router12.prototype.route = function route(path2) {
+    Router13.prototype.route = function route(path2) {
       const route2 = new Route(path2);
       const layer = new Layer(path2, {
         sensitive: this.caseSensitive,
@@ -20713,7 +20713,7 @@ var require_router = __commonJS({
       return route2;
     };
     methods.concat("all").forEach(function(method) {
-      Router12.prototype[method] = function(path2) {
+      Router13.prototype[method] = function(path2) {
         const route = this.route(path2);
         route[method].apply(route, slice.call(arguments, 1));
         return this;
@@ -20896,13 +20896,13 @@ var require_application = __commonJS({
     var compileTrust = require_utils3().compileTrust;
     var resolve = __require("node:path").resolve;
     var once = require_once();
-    var Router12 = require_router();
+    var Router13 = require_router();
     var slice = Array.prototype.slice;
     var flatten = Array.prototype.flat;
     var app2 = exports = module.exports = {};
     var trustProxyDefaultSymbol = "@@symbol:trust_proxy_default";
     app2.init = function init() {
-      var router12 = null;
+      var router13 = null;
       this.cache = /* @__PURE__ */ Object.create(null);
       this.engines = /* @__PURE__ */ Object.create(null);
       this.settings = /* @__PURE__ */ Object.create(null);
@@ -20911,13 +20911,13 @@ var require_application = __commonJS({
         configurable: true,
         enumerable: true,
         get: function getrouter() {
-          if (router12 === null) {
-            router12 = new Router12({
+          if (router13 === null) {
+            router13 = new Router13({
               caseSensitive: this.enabled("case sensitive routing"),
               strict: this.enabled("strict routing")
             });
           }
-          return router12;
+          return router13;
         }
       });
     };
@@ -20988,15 +20988,15 @@ var require_application = __commonJS({
       if (fns.length === 0) {
         throw new TypeError("app.use() requires a middleware function");
       }
-      var router12 = this.router;
+      var router13 = this.router;
       fns.forEach(function(fn2) {
         if (!fn2 || !fn2.handle || !fn2.set) {
-          return router12.use(path2, fn2);
+          return router13.use(path2, fn2);
         }
         debug(".use app under %s", path2);
         fn2.mountpath = path2;
         fn2.parent = this;
-        router12.use(path2, function mounted_app(req, res, next) {
+        router13.use(path2, function mounted_app(req, res, next) {
           var orig = req.app;
           fn2.handle(req, res, function(err) {
             Object.setPrototypeOf(req, orig.request);
@@ -23569,7 +23569,7 @@ var require_express = __commonJS({
     var EventEmitter = __require("node:events").EventEmitter;
     var mixin = require_merge_descriptors();
     var proto = require_application();
-    var Router12 = require_router();
+    var Router13 = require_router();
     var req = require_request();
     var res = require_response();
     exports = module.exports = createApplication;
@@ -23591,8 +23591,8 @@ var require_express = __commonJS({
     exports.application = proto;
     exports.request = req;
     exports.response = res;
-    exports.Route = Router12.Route;
-    exports.Router = Router12;
+    exports.Route = Router13.Route;
+    exports.Router = Router13;
     exports.json = bodyParser.json;
     exports.raw = bodyParser.raw;
     exports.static = require_serve_static();
@@ -82001,10 +82001,10 @@ var require_connection2 = __commonJS({
         });
       });
     };
-    async function _wrapUserTransaction(fn, session2, mongoose10) {
+    async function _wrapUserTransaction(fn, session2, mongoose11) {
       try {
-        const res = mongoose10.transactionAsyncLocalStorage == null ? await fn(session2) : await new Promise((resolve) => {
-          mongoose10.transactionAsyncLocalStorage.run(
+        const res = mongoose11.transactionAsyncLocalStorage == null ? await fn(session2) : await new Promise((resolve) => {
+          mongoose11.transactionAsyncLocalStorage.run(
             { session: session2 },
             () => resolve(fn(session2))
           );
@@ -94492,7 +94492,7 @@ var require_mongoose = __commonJS({
     Mongoose.prototype.ConnectionStates = STATES;
     Mongoose.prototype.driver = driver;
     Mongoose.prototype.setDriver = function setDriver(driver2) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       if (_mongoose.__driver === driver2) {
         return _mongoose;
       }
@@ -94510,7 +94510,7 @@ var require_mongoose = __commonJS({
         }
       }
       if (driver2.SchemaTypes != null) {
-        Object.assign(mongoose10.Schema.Types, driver2.SchemaTypes);
+        Object.assign(mongoose11.Schema.Types, driver2.SchemaTypes);
       }
       const Connection = driver2.Connection;
       const oldDefaultConnection = _mongoose.connections[0];
@@ -94528,7 +94528,7 @@ var require_mongoose = __commonJS({
       return _mongoose;
     };
     Mongoose.prototype.set = function getsetOptions(key, value) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       if (arguments.length === 1 && typeof key !== "object") {
         if (VALID_OPTIONS.indexOf(key) === -1) {
           const error2 = new SetOptionError();
@@ -94589,7 +94589,7 @@ var require_mongoose = __commonJS({
     };
     Mongoose.prototype.get = Mongoose.prototype.set;
     Mongoose.prototype.createConnection = function createConnection(uri, options) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       const Connection = _mongoose.__driver.Connection;
       const conn = new Connection(_mongoose);
       _mongoose.connections.push(conn);
@@ -94604,7 +94604,7 @@ var require_mongoose = __commonJS({
       if (typeof options === "function" || arguments.length >= 3 && typeof arguments[2] === "function") {
         throw new MongooseError("Mongoose.prototype.connect() no longer accepts a callback");
       }
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       if (_mongoose.connection == null) {
         _createDefaultConnection(_mongoose);
       }
@@ -94615,7 +94615,7 @@ var require_mongoose = __commonJS({
       if (arguments.length >= 1 && typeof arguments[0] === "function") {
         throw new MongooseError("Mongoose.prototype.disconnect() no longer accepts a callback");
       }
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       const remaining = _mongoose.connections.length;
       if (remaining <= 0) {
         return;
@@ -94623,18 +94623,18 @@ var require_mongoose = __commonJS({
       await Promise.all(_mongoose.connections.map((conn) => conn.close()));
     };
     Mongoose.prototype.startSession = function startSession() {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       return _mongoose.connection.startSession.apply(_mongoose.connection, arguments);
     };
     Mongoose.prototype.pluralize = function pluralize(fn) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       if (arguments.length > 0) {
         _mongoose._pluralize = fn;
       }
       return _mongoose._pluralize;
     };
     Mongoose.prototype.model = function model(name, schema, collection, options) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       if (typeof schema === "string") {
         collection = schema;
         schema = false;
@@ -94682,7 +94682,7 @@ var require_mongoose = __commonJS({
       return model2;
     };
     Mongoose.prototype._model = function _model(name, schema, collection, options) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       let model;
       if (typeof name === "function") {
         model = name;
@@ -94721,25 +94721,25 @@ var require_mongoose = __commonJS({
       return model;
     };
     Mongoose.prototype.deleteModel = function deleteModel(name) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       _mongoose.connection.deleteModel(name);
       delete _mongoose.models[name];
       return _mongoose;
     };
     Mongoose.prototype.modelNames = function modelNames() {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       const names = Object.keys(_mongoose.models);
       return names;
     };
     Mongoose.prototype._applyPlugins = function _applyPlugins(schema, options) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       options = options || {};
       options.applyPluginsToDiscriminators = _mongoose.options && _mongoose.options.applyPluginsToDiscriminators || false;
       options.applyPluginsToChildSchemas = typeof (_mongoose.options && _mongoose.options.applyPluginsToChildSchemas) === "boolean" ? _mongoose.options.applyPluginsToChildSchemas : true;
       applyPlugins(schema, _mongoose.plugins, options, "$globalPluginsApplied");
     };
     Mongoose.prototype.plugin = function plugin(fn, opts) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       _mongoose.plugins.push([fn, opts]);
       return _mongoose;
     };
@@ -94789,14 +94789,14 @@ var require_mongoose = __commonJS({
     Mongoose.prototype.DocumentProvider = require_documentProvider();
     Mongoose.prototype.ObjectId = SchemaTypes.ObjectId;
     Mongoose.prototype.isValidObjectId = function isValidObjectId(v) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       return _mongoose.Types.ObjectId.isValid(v);
     };
     Mongoose.prototype.isObjectIdOrHexString = function isObjectIdOrHexString(v) {
       return isBsonType(v, "ObjectId") || typeof v === "string" && objectIdHexRegexp.test(v);
     };
     Mongoose.prototype.syncIndexes = function syncIndexes(options) {
-      const _mongoose = this instanceof Mongoose ? this : mongoose10;
+      const _mongoose = this instanceof Mongoose ? this : mongoose11;
       return _mongoose.connection.syncIndexes(options);
     };
     Mongoose.prototype.Decimal128 = SchemaTypes.Decimal128;
@@ -94816,15 +94816,15 @@ var require_mongoose = __commonJS({
     Mongoose.prototype.skipMiddlewareFunction = Kareem.skipWrappedFunction;
     Mongoose.prototype.overwriteMiddlewareResult = Kareem.overwriteResult;
     Mongoose.prototype.omitUndefined = require_omitUndefined();
-    function _createDefaultConnection(mongoose11) {
-      if (mongoose11.connection) {
+    function _createDefaultConnection(mongoose12) {
+      if (mongoose12.connection) {
         return;
       }
-      const conn = mongoose11.createConnection();
+      const conn = mongoose12.createConnection();
       conn[defaultConnectionSymbol] = true;
-      conn.models = mongoose11.models;
+      conn.models = mongoose12.models;
     }
-    var mongoose10 = module.exports = exports = new Mongoose({
+    var mongoose11 = module.exports = exports = new Mongoose({
       [defaultMongooseSymbol]: true
     });
   }
@@ -94836,10 +94836,10 @@ var require_lib9 = __commonJS({
     "use strict";
     var mongodbDriver = require_node_mongodb_native();
     require_driver().set(mongodbDriver);
-    var mongoose10 = require_mongoose();
-    mongoose10.setDriver(mongodbDriver);
-    mongoose10.Mongoose.prototype.mongo = require_lib6();
-    module.exports = mongoose10;
+    var mongoose11 = require_mongoose();
+    mongoose11.setDriver(mongodbDriver);
+    mongoose11.Mongoose.prototype.mongo = require_lib6();
+    module.exports = mongoose11;
   }
 });
 
@@ -94847,60 +94847,60 @@ var require_lib9 = __commonJS({
 var require_mongoose2 = __commonJS({
   "../../node_modules/.pnpm/mongoose@8.24.0/node_modules/mongoose/index.js"(exports, module) {
     "use strict";
-    var mongoose10 = require_lib9();
-    module.exports = mongoose10;
-    module.exports.default = mongoose10;
-    module.exports.mongoose = mongoose10;
-    module.exports.cast = mongoose10.cast;
-    module.exports.STATES = mongoose10.STATES;
-    module.exports.setDriver = mongoose10.setDriver;
-    module.exports.set = mongoose10.set;
-    module.exports.get = mongoose10.get;
-    module.exports.createConnection = mongoose10.createConnection;
-    module.exports.connect = mongoose10.connect;
-    module.exports.disconnect = mongoose10.disconnect;
-    module.exports.startSession = mongoose10.startSession;
-    module.exports.pluralize = mongoose10.pluralize;
-    module.exports.model = mongoose10.model;
-    module.exports.deleteModel = mongoose10.deleteModel;
-    module.exports.modelNames = mongoose10.modelNames;
-    module.exports.plugin = mongoose10.plugin;
-    module.exports.connections = mongoose10.connections;
-    module.exports.version = mongoose10.version;
-    module.exports.Aggregate = mongoose10.Aggregate;
-    module.exports.Mongoose = mongoose10.Mongoose;
-    module.exports.Schema = mongoose10.Schema;
-    module.exports.SchemaType = mongoose10.SchemaType;
-    module.exports.SchemaTypes = mongoose10.SchemaTypes;
-    module.exports.VirtualType = mongoose10.VirtualType;
-    module.exports.Types = mongoose10.Types;
-    module.exports.Query = mongoose10.Query;
-    module.exports.Model = mongoose10.Model;
-    module.exports.Document = mongoose10.Document;
-    module.exports.ObjectId = mongoose10.ObjectId;
-    module.exports.isValidObjectId = mongoose10.isValidObjectId;
-    module.exports.isObjectIdOrHexString = mongoose10.isObjectIdOrHexString;
-    module.exports.syncIndexes = mongoose10.syncIndexes;
-    module.exports.Decimal128 = mongoose10.Decimal128;
-    module.exports.Mixed = mongoose10.Mixed;
-    module.exports.Date = mongoose10.Date;
-    module.exports.Number = mongoose10.Number;
-    module.exports.Error = mongoose10.Error;
-    module.exports.MongooseError = mongoose10.MongooseError;
-    module.exports.now = mongoose10.now;
-    module.exports.CastError = mongoose10.CastError;
-    module.exports.SchemaTypeOptions = mongoose10.SchemaTypeOptions;
-    module.exports.mongo = mongoose10.mongo;
-    module.exports.mquery = mongoose10.mquery;
-    module.exports.sanitizeFilter = mongoose10.sanitizeFilter;
-    module.exports.trusted = mongoose10.trusted;
-    module.exports.skipMiddlewareFunction = mongoose10.skipMiddlewareFunction;
-    module.exports.overwriteMiddlewareResult = mongoose10.overwriteMiddlewareResult;
+    var mongoose11 = require_lib9();
+    module.exports = mongoose11;
+    module.exports.default = mongoose11;
+    module.exports.mongoose = mongoose11;
+    module.exports.cast = mongoose11.cast;
+    module.exports.STATES = mongoose11.STATES;
+    module.exports.setDriver = mongoose11.setDriver;
+    module.exports.set = mongoose11.set;
+    module.exports.get = mongoose11.get;
+    module.exports.createConnection = mongoose11.createConnection;
+    module.exports.connect = mongoose11.connect;
+    module.exports.disconnect = mongoose11.disconnect;
+    module.exports.startSession = mongoose11.startSession;
+    module.exports.pluralize = mongoose11.pluralize;
+    module.exports.model = mongoose11.model;
+    module.exports.deleteModel = mongoose11.deleteModel;
+    module.exports.modelNames = mongoose11.modelNames;
+    module.exports.plugin = mongoose11.plugin;
+    module.exports.connections = mongoose11.connections;
+    module.exports.version = mongoose11.version;
+    module.exports.Aggregate = mongoose11.Aggregate;
+    module.exports.Mongoose = mongoose11.Mongoose;
+    module.exports.Schema = mongoose11.Schema;
+    module.exports.SchemaType = mongoose11.SchemaType;
+    module.exports.SchemaTypes = mongoose11.SchemaTypes;
+    module.exports.VirtualType = mongoose11.VirtualType;
+    module.exports.Types = mongoose11.Types;
+    module.exports.Query = mongoose11.Query;
+    module.exports.Model = mongoose11.Model;
+    module.exports.Document = mongoose11.Document;
+    module.exports.ObjectId = mongoose11.ObjectId;
+    module.exports.isValidObjectId = mongoose11.isValidObjectId;
+    module.exports.isObjectIdOrHexString = mongoose11.isObjectIdOrHexString;
+    module.exports.syncIndexes = mongoose11.syncIndexes;
+    module.exports.Decimal128 = mongoose11.Decimal128;
+    module.exports.Mixed = mongoose11.Mixed;
+    module.exports.Date = mongoose11.Date;
+    module.exports.Number = mongoose11.Number;
+    module.exports.Error = mongoose11.Error;
+    module.exports.MongooseError = mongoose11.MongooseError;
+    module.exports.now = mongoose11.now;
+    module.exports.CastError = mongoose11.CastError;
+    module.exports.SchemaTypeOptions = mongoose11.SchemaTypeOptions;
+    module.exports.mongo = mongoose11.mongo;
+    module.exports.mquery = mongoose11.mquery;
+    module.exports.sanitizeFilter = mongoose11.sanitizeFilter;
+    module.exports.trusted = mongoose11.trusted;
+    module.exports.skipMiddlewareFunction = mongoose11.skipMiddlewareFunction;
+    module.exports.overwriteMiddlewareResult = mongoose11.overwriteMiddlewareResult;
   }
 });
 
 // src/app.ts
-var import_express12 = __toESM(require_express2());
+var import_express13 = __toESM(require_express2());
 var import_cors = __toESM(require_lib3());
 var import_pino_http = __toESM(require_logger());
 var import_express_session = __toESM(require_express_session());
@@ -94909,7 +94909,7 @@ import fs from "fs";
 import { fileURLToPath } from "url";
 
 // src/routes/index.ts
-var import_express11 = __toESM(require_express2());
+var import_express12 = __toESM(require_express2());
 
 // src/routes/health.ts
 var import_express = __toESM(require_express2());
@@ -99329,7 +99329,7 @@ var health_default = router;
 var import_express2 = __toESM(require_express2());
 
 // ../../lib/db/src/index.ts
-var import_mongoose9 = __toESM(require_mongoose2(), 1);
+var import_mongoose10 = __toESM(require_mongoose2(), 1);
 
 // ../../lib/db/src/schema/banners.ts
 var import_mongoose = __toESM(require_mongoose2(), 1);
@@ -99479,7 +99479,8 @@ var contactSchema = new import_mongoose7.default.Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   subject: { type: String, default: null },
-  message: { type: String, required: true }
+  message: { type: String, required: true },
+  ip: { type: String, default: "" }
 }, { timestamps: true });
 var ContactModel = import_mongoose7.default.models.Contact || import_mongoose7.default.model("Contact", contactSchema);
 var insertContactSchema = external_exports.object({
@@ -99487,11 +99488,58 @@ var insertContactSchema = external_exports.object({
   email: external_exports.string(),
   phone: external_exports.string(),
   subject: external_exports.string().nullable().optional(),
-  message: external_exports.string()
+  message: external_exports.string(),
+  ip: external_exports.string().optional()
 });
 
 // ../../lib/db/src/schema/siteSettings.ts
 var import_mongoose8 = __toESM(require_mongoose2(), 1);
+var DEFAULT_PRIVACY_POLICY = `1. Who We Are
+Ayotrix Infotech ("we", "us", "our") is an end-to-end digital solutions agency based in Bhopal, Madhya Pradesh, India. We operate ayotrix.com and specialize in software development, mobile apps, digital marketing, RCS & WhatsApp communication products, and AI solutions.
+
+2. Information We Collect
+We collect personal information when you fill out contact or inquiry forms on our site:
+- Contact Information: Full name, email address, phone number, company name.
+- Project Details: Service requirements, budget estimates, and inquiry messages.
+- Technical Data: IP address, browser type, device information, and website usage data for security and performance optimization.
+
+3. How We Use Your Information
+Your information is used strictly to:
+- Respond to your inquiries and provide service quotes.
+- Deliver customized app development, digital marketing, and messaging services.
+- Improve our website features, performance, and user experience.
+- Maintain operational security and prevent unauthorized activity.
+
+4. Data Sharing & Disclosure
+We value your trust and do not sell, rent, or lease your personal information. Data may be shared only with:
+- Authorized Cloud & IT Infrastructure Providers: Trusted partners who assist in website hosting and email processing under strict confidentiality terms.
+- Legal Compliance: When required by law or judicial proceedings in India.
+
+5. Data Security & Storage
+We implement industry-standard encryption, firewalls, and security measures to protect your data from unauthorized access, alteration, or loss.
+
+6. Your Data Rights
+You have the right to request access to your personal data, request corrections, or ask for data deletion by contacting info@ayotrix.com.
+
+7. Contact Information
+If you have any questions or concerns regarding this Privacy Policy, please contact us:
+Ayotrix Infotech
+Bhopal, Madhya Pradesh, India
+Email: info@ayotrix.com | Phone: +91 97520 45356`;
+var DEFAULT_TERMS_OF_SERVICE = `1. Agreement
+By accessing ayotrix.com or engaging Ayotrix Infotech for digital services, you agree to comply with these terms. Detailed deliverables and timelines are defined in project proposals.
+
+2. Services Provided
+Ayotrix Infotech provides application development, performance digital marketing, communication APIs (WhatsApp, RCS, OTP), and AI solutions.
+
+3. Client Responsibilities
+Clients agree to provide required assets, project inputs, and feedback in a timely manner to avoid delivery delays.
+
+4. Intellectual Property
+Upon full payment, custom software deliverables transfer to the client as specified in individual contract agreements. Pre-existing frameworks and third-party tools remain protected under their respective licenses.
+
+5. Contact Us
+For questions regarding these terms, reach us at info@ayotrix.com or +91 97520 45356.`;
 var siteSettingsSchema = new import_mongoose8.default.Schema({
   key: { type: String, default: "main", unique: true },
   password: { type: String, default: "525252" },
@@ -99500,7 +99548,11 @@ var siteSettingsSchema = new import_mongoose8.default.Schema({
   contactPerson: { type: String, default: "Subham Pandey, CEO" },
   phone: { type: String, default: "+91 97520 45356" },
   email: { type: String, default: "info@ayotrix.com" },
-  address: { type: String, default: "Bhopal, Madhya Pradesh" }
+  address: { type: String, default: "Bhopal, Madhya Pradesh" },
+  privacyPolicyContent: { type: String, default: DEFAULT_PRIVACY_POLICY },
+  privacyPolicyLastUpdated: { type: String, default: "July 29, 2026" },
+  termsOfServiceContent: { type: String, default: DEFAULT_TERMS_OF_SERVICE },
+  termsOfServiceLastUpdated: { type: String, default: "July 29, 2026" }
 }, { timestamps: true });
 var SiteSettingsModel = import_mongoose8.default.models.SiteSettings || import_mongoose8.default.model("SiteSettings", siteSettingsSchema);
 var updateSiteSettingsSchema = external_exports.object({
@@ -99509,11 +99561,58 @@ var updateSiteSettingsSchema = external_exports.object({
   contactPerson: external_exports.string().optional(),
   phone: external_exports.string().optional(),
   email: external_exports.string().optional(),
-  address: external_exports.string().optional()
+  address: external_exports.string().optional(),
+  privacyPolicyContent: external_exports.string().optional(),
+  privacyPolicyLastUpdated: external_exports.string().optional(),
+  termsOfServiceContent: external_exports.string().optional(),
+  termsOfServiceLastUpdated: external_exports.string().optional()
 });
 var changePasswordSchema = external_exports.object({
   currentPassword: external_exports.string(),
   newPassword: external_exports.string().min(4)
+});
+
+// ../../lib/db/src/schema/bannedUsers.ts
+var import_mongoose9 = __toESM(require_mongoose2(), 1);
+var bannedUserSchema = new import_mongoose9.default.Schema(
+  {
+    type: {
+      type: String,
+      enum: ["email", "ip", "phone", "all"],
+      default: "email",
+      required: true
+    },
+    value: {
+      type: String,
+      required: true,
+      trim: true,
+      lowercase: true,
+      index: true
+    },
+    name: { type: String, default: "" },
+    email: { type: String, default: "", lowercase: true, trim: true },
+    phone: { type: String, default: "", trim: true },
+    ip: { type: String, default: "", trim: true },
+    reason: { type: String, default: "Spam or policy violation" },
+    bannedBy: { type: String, default: "admin" },
+    isActive: { type: Boolean, default: true, index: true },
+    expiresAt: { type: Date, default: null }
+  },
+  { timestamps: true }
+);
+bannedUserSchema.index({ type: 1, value: 1 });
+bannedUserSchema.index({ isActive: 1, createdAt: -1 });
+var BannedUserModel = import_mongoose9.default.models.BannedUser || import_mongoose9.default.model("BannedUser", bannedUserSchema);
+var insertBannedUserSchema = external_exports.object({
+  type: external_exports.enum(["email", "ip", "phone", "all"]).default("email"),
+  value: external_exports.string().min(1, "Ban target value is required"),
+  name: external_exports.string().optional(),
+  email: external_exports.string().optional(),
+  phone: external_exports.string().optional(),
+  ip: external_exports.string().optional(),
+  reason: external_exports.string().default("Spam or policy violation"),
+  isActive: external_exports.boolean().default(true),
+  expiresAt: external_exports.string().nullable().optional()
 });
 
 // ../../lib/db/src/index.ts
@@ -99521,7 +99620,7 @@ var mongoUrl = process.env.MONGO_URI || process.env.DATABASE_URL;
 if (!mongoUrl) {
   console.warn("WARNING: DATABASE_URL or MONGO_URI is not set. MongoDB will not connect. Please configure your environment variables in Vercel.");
 } else {
-  import_mongoose9.default.connect(mongoUrl).then(() => {
+  import_mongoose10.default.connect(mongoUrl).then(() => {
     console.log("Connected to MongoDB successfully");
   }).catch((err) => {
     console.error("MongoDB connection error:", err);
@@ -99719,20 +99818,190 @@ var clients_default = router7;
 
 // src/routes/contacts.ts
 var import_express8 = __toESM(require_express2());
+
+// src/middlewares/auth.ts
+var ADMIN_SESSION_KEY = "ayotrix_admin";
+function requireAdmin(req, res, next) {
+  if (req.session?.[ADMIN_SESSION_KEY]) {
+    return next();
+  }
+  return res.status(401).json({ error: "Not authenticated" });
+}
+
+// src/routes/contacts.ts
 var router8 = (0, import_express8.Router)();
-var getContacts = async (req, res) => {
-  const contacts = await ContactModel.find().sort({ createdAt: -1 });
-  res.json(contacts.map((c) => ({ ...c.toObject(), id: c._id.toString(), createdAt: c.createdAt.toISOString() })));
+function getClientIp(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (typeof forwarded === "string") {
+    return forwarded.split(",")[0].trim();
+  }
+  if (Array.isArray(forwarded) && forwarded.length > 0) {
+    return forwarded[0].trim();
+  }
+  return req.socket.remoteAddress || req.ip || "";
+}
+var getContacts = async (_req, res) => {
+  try {
+    const contacts = await ContactModel.find().sort({ createdAt: -1 });
+    res.json(
+      contacts.map((c) => ({
+        ...c.toObject(),
+        id: c._id.toString(),
+        createdAt: c.createdAt.toISOString(),
+        ip: c.ip || ""
+      }))
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to fetch contacts" });
+  }
 };
 router8.get("/contact", getContacts);
 router8.get("/contacts", getContacts);
 var postContact = async (req, res) => {
-  const { name, email, phone, subject = null, message } = req.body;
-  const contact = await ContactModel.create({ name, email, phone, subject, message });
-  res.status(201).json({ success: true, id: contact._id.toString() });
+  try {
+    const { name, email, phone, subject = null, message } = req.body;
+    if (!name || !email || !message) {
+      res.status(400).json({ error: "Name, email, and message are required" });
+      return;
+    }
+    const clientIp = getClientIp(req);
+    const normalizedEmail = (email || "").trim().toLowerCase();
+    const normalizedPhone = (phone || "").trim();
+    const normalizedIp = clientIp.trim().toLowerCase();
+    const orConditions = [];
+    if (normalizedEmail) {
+      orConditions.push({ type: "email", value: normalizedEmail });
+      orConditions.push({ email: normalizedEmail });
+      orConditions.push({ type: "all", value: normalizedEmail });
+    }
+    if (normalizedPhone) {
+      orConditions.push({ type: "phone", value: normalizedPhone });
+      orConditions.push({ phone: normalizedPhone });
+      orConditions.push({ type: "all", value: normalizedPhone });
+    }
+    if (normalizedIp) {
+      orConditions.push({ type: "ip", value: normalizedIp });
+      orConditions.push({ ip: normalizedIp });
+      orConditions.push({ type: "all", value: normalizedIp });
+    }
+    if (orConditions.length > 0) {
+      const activeBans = await BannedUserModel.find({
+        isActive: true,
+        $or: orConditions
+      });
+      const now = /* @__PURE__ */ new Date();
+      const validBan = activeBans.find((b) => !b.expiresAt || new Date(b.expiresAt) > now);
+      if (validBan) {
+        res.status(403).json({
+          error: `Your submission could not be processed. Reason: ${validBan.reason || "Policy restriction"}`,
+          reason: validBan.reason,
+          banned: true
+        });
+        return;
+      }
+    }
+    const contact = await ContactModel.create({
+      name,
+      email: normalizedEmail,
+      phone: normalizedPhone,
+      subject,
+      message,
+      ip: clientIp
+    });
+    res.status(201).json({ success: true, id: contact._id.toString() });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to submit contact inquiry" });
+  }
 };
 router8.post("/contact", postContact);
 router8.post("/contacts", postContact);
+router8.delete("/contacts/:id", requireAdmin, async (req, res) => {
+  try {
+    const contact = await ContactModel.findByIdAndDelete(req.params.id);
+    if (!contact) {
+      res.status(404).json({ error: "Contact inquiry not found" });
+      return;
+    }
+    res.json({ success: true, message: "Contact deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to delete contact" });
+  }
+});
+router8.post("/contacts/:id/ban", requireAdmin, async (req, res) => {
+  try {
+    const contact = await ContactModel.findById(req.params.id);
+    if (!contact) {
+      res.status(404).json({ error: "Contact inquiry not found" });
+      return;
+    }
+    const {
+      banEmail = true,
+      banPhone = false,
+      banIp = false,
+      reason = "Spam contact form submissions"
+    } = req.body;
+    const bannedBy = req.session?.ayotrix_admin?.username || "admin";
+    const bansCreated = [];
+    if (banEmail && contact.email) {
+      const emailVal = contact.email.trim().toLowerCase();
+      const ban = await BannedUserModel.findOneAndUpdate(
+        { type: "email", value: emailVal },
+        {
+          name: contact.name,
+          email: emailVal,
+          phone: contact.phone || "",
+          ip: contact.ip || "",
+          reason,
+          bannedBy,
+          isActive: true
+        },
+        { upsert: true, new: true }
+      );
+      bansCreated.push(ban);
+    }
+    if (banPhone && contact.phone) {
+      const phoneVal = contact.phone.trim();
+      const ban = await BannedUserModel.findOneAndUpdate(
+        { type: "phone", value: phoneVal },
+        {
+          name: contact.name,
+          email: contact.email || "",
+          phone: phoneVal,
+          ip: contact.ip || "",
+          reason,
+          bannedBy,
+          isActive: true
+        },
+        { upsert: true, new: true }
+      );
+      bansCreated.push(ban);
+    }
+    if (banIp && contact.ip) {
+      const ipVal = contact.ip.trim().toLowerCase();
+      const ban = await BannedUserModel.findOneAndUpdate(
+        { type: "ip", value: ipVal },
+        {
+          name: contact.name,
+          email: contact.email || "",
+          phone: contact.phone || "",
+          ip: ipVal,
+          reason,
+          bannedBy,
+          isActive: true
+        },
+        { upsert: true, new: true }
+      );
+      bansCreated.push(ban);
+    }
+    res.json({
+      success: true,
+      message: `Successfully banned ${bansCreated.length} identifiers for ${contact.name}`,
+      bans: bansCreated.map((b) => ({ ...b.toObject(), id: b._id.toString() }))
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to ban user from contact" });
+  }
+});
 var contacts_default = router8;
 
 // src/routes/stats.ts
@@ -99755,17 +100024,22 @@ var stats_default = router9;
 // src/routes/admin.ts
 var import_express10 = __toESM(require_express2());
 var router10 = (0, import_express10.Router)();
-var ADMIN_SESSION_KEY = "ayotrix_admin";
 async function getSettings() {
   let settings = await SiteSettingsModel.findOne({ key: "main" });
   if (!settings) {
     settings = await SiteSettingsModel.create({ key: "main", password: "525252" });
   }
+  if (!settings.privacyPolicyContent) {
+    settings.privacyPolicyContent = DEFAULT_PRIVACY_POLICY;
+    settings.privacyPolicyLastUpdated = "July 29, 2026";
+    await settings.save();
+  }
+  if (!settings.termsOfServiceContent) {
+    settings.termsOfServiceContent = DEFAULT_TERMS_OF_SERVICE;
+    settings.termsOfServiceLastUpdated = "July 29, 2026";
+    await settings.save();
+  }
   return settings;
-}
-function requireAdmin(req, res, next) {
-  if (req.session[ADMIN_SESSION_KEY]) return next();
-  return res.status(401).json({ error: "Not authenticated" });
 }
 router10.post("/admin/login", async (req, res) => {
   const { password } = req.body;
@@ -99808,14 +100082,42 @@ router10.get("/admin/site-settings", requireAdmin, async (req, res) => {
     contactPerson: settings.contactPerson,
     phone: settings.phone,
     email: settings.email,
-    address: settings.address
+    address: settings.address,
+    privacyPolicyContent: settings.privacyPolicyContent,
+    privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
+    termsOfServiceContent: settings.termsOfServiceContent,
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated
   });
 });
 router10.put("/admin/site-settings", requireAdmin, async (req, res) => {
-  const { logoUrl, companyName, contactPerson, phone, email, address } = req.body;
+  const {
+    logoUrl,
+    companyName,
+    contactPerson,
+    phone,
+    email,
+    address,
+    privacyPolicyContent,
+    privacyPolicyLastUpdated,
+    termsOfServiceContent,
+    termsOfServiceLastUpdated
+  } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
-    { $set: { logoUrl, companyName, contactPerson, phone, email, address } },
+    {
+      $set: {
+        logoUrl,
+        companyName,
+        contactPerson,
+        phone,
+        email,
+        address,
+        privacyPolicyContent,
+        privacyPolicyLastUpdated,
+        termsOfServiceContent,
+        termsOfServiceLastUpdated
+      }
+    },
     { upsert: true }
   );
   res.json({ success: true });
@@ -99828,24 +100130,182 @@ router10.get("/site-settings", async (req, res) => {
     contactPerson: settings.contactPerson,
     phone: settings.phone,
     email: settings.email,
-    address: settings.address
+    address: settings.address,
+    privacyPolicyContent: settings.privacyPolicyContent,
+    privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
+    termsOfServiceContent: settings.termsOfServiceContent,
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated
   });
 });
 var admin_default = router10;
 
-// src/routes/index.ts
+// src/routes/bans.ts
+var import_express11 = __toESM(require_express2());
 var router11 = (0, import_express11.Router)();
-router11.use(health_default);
-router11.use(banners_default);
-router11.use(services_default);
-router11.use(products_default);
-router11.use(team_default);
-router11.use(testimonials_default);
-router11.use(clients_default);
-router11.use(contacts_default);
-router11.use(stats_default);
-router11.use(admin_default);
-var routes_default = router11;
+router11.get("/bans", requireAdmin, async (req, res) => {
+  try {
+    const { search, type, status } = req.query;
+    const query = {};
+    if (status === "active") {
+      query.isActive = true;
+    } else if (status === "inactive") {
+      query.isActive = false;
+    }
+    if (type && type !== "all_types") {
+      query.type = type;
+    }
+    if (search && typeof search === "string" && search.trim().length > 0) {
+      const term = search.trim();
+      const regex = new RegExp(term, "i");
+      query.$or = [
+        { value: regex },
+        { name: regex },
+        { email: regex },
+        { phone: regex },
+        { ip: regex },
+        { reason: regex }
+      ];
+    }
+    const bans = await BannedUserModel.find(query).sort({ createdAt: -1 });
+    res.json(
+      bans.map((b) => ({
+        ...b.toObject(),
+        id: b._id.toString(),
+        createdAt: b.createdAt.toISOString(),
+        updatedAt: b.updatedAt.toISOString(),
+        expiresAt: b.expiresAt ? b.expiresAt.toISOString() : null
+      }))
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to fetch banned users" });
+  }
+});
+router11.get("/bans/stats", requireAdmin, async (_req, res) => {
+  try {
+    const [total, active, emails, ips, phones] = await Promise.all([
+      BannedUserModel.countDocuments(),
+      BannedUserModel.countDocuments({ isActive: true }),
+      BannedUserModel.countDocuments({ isActive: true, type: "email" }),
+      BannedUserModel.countDocuments({ isActive: true, type: "ip" }),
+      BannedUserModel.countDocuments({ isActive: true, type: "phone" })
+    ]);
+    res.json({
+      total,
+      active,
+      bannedEmails: emails,
+      bannedIps: ips,
+      bannedPhones: phones
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to fetch ban statistics" });
+  }
+});
+router11.post("/bans", requireAdmin, async (req, res) => {
+  try {
+    const {
+      type = "email",
+      value,
+      reason = "Spam or policy violation",
+      name = "",
+      email = "",
+      phone = "",
+      ip = "",
+      expiresAt = null,
+      isActive = true
+    } = req.body;
+    if (!value || typeof value !== "string" || !value.trim()) {
+      res.status(400).json({ error: "Ban target value is required" });
+      return;
+    }
+    const normalizedValue = value.trim().toLowerCase();
+    let ban = await BannedUserModel.findOne({
+      type,
+      value: normalizedValue
+    });
+    if (ban) {
+      ban.isActive = isActive !== void 0 ? isActive : true;
+      ban.reason = reason || ban.reason;
+      if (name) ban.name = name;
+      if (email) ban.email = email.toLowerCase();
+      if (phone) ban.phone = phone;
+      if (ip) ban.ip = ip;
+      if (expiresAt !== void 0) {
+        ban.expiresAt = expiresAt ? new Date(expiresAt) : null;
+      }
+      await ban.save();
+      res.json({
+        ...ban.toObject(),
+        id: ban._id.toString(),
+        message: "Existing ban updated and reactivated"
+      });
+      return;
+    }
+    ban = await BannedUserModel.create({
+      type,
+      value: normalizedValue,
+      name,
+      email: email ? email.toLowerCase() : type === "email" ? normalizedValue : "",
+      phone: phone || (type === "phone" ? normalizedValue : ""),
+      ip: ip || (type === "ip" ? normalizedValue : ""),
+      reason,
+      bannedBy: req.session?.ayotrix_admin?.username || "admin",
+      isActive,
+      expiresAt: expiresAt ? new Date(expiresAt) : null
+    });
+    res.status(201).json({
+      ...ban.toObject(),
+      id: ban._id.toString()
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to create ban" });
+  }
+});
+router11.patch("/bans/:id/toggle", requireAdmin, async (req, res) => {
+  try {
+    const ban = await BannedUserModel.findById(req.params.id);
+    if (!ban) {
+      res.status(404).json({ error: "Ban record not found" });
+      return;
+    }
+    ban.isActive = !ban.isActive;
+    await ban.save();
+    res.json({
+      ...ban.toObject(),
+      id: ban._id.toString(),
+      message: ban.isActive ? "User re-banned successfully" : "User unbanned successfully"
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to toggle ban status" });
+  }
+});
+router11.delete("/bans/:id", requireAdmin, async (req, res) => {
+  try {
+    const ban = await BannedUserModel.findByIdAndDelete(req.params.id);
+    if (!ban) {
+      res.status(404).json({ error: "Ban record not found" });
+      return;
+    }
+    res.json({ success: true, message: "Ban record removed completely" });
+  } catch (error) {
+    res.status(500).json({ error: error.message || "Failed to delete ban record" });
+  }
+});
+var bans_default = router11;
+
+// src/routes/index.ts
+var router12 = (0, import_express12.Router)();
+router12.use(health_default);
+router12.use(banners_default);
+router12.use(services_default);
+router12.use(products_default);
+router12.use(team_default);
+router12.use(testimonials_default);
+router12.use(clients_default);
+router12.use(contacts_default);
+router12.use(stats_default);
+router12.use(admin_default);
+router12.use(bans_default);
+var routes_default = router12;
 
 // src/lib/logger.ts
 var import_pino = __toESM(require_pino());
@@ -99866,7 +100326,7 @@ var logger = (0, import_pino.default)({
 });
 
 // src/app.ts
-var app = (0, import_express12.default)();
+var app = (0, import_express13.default)();
 var isProd = process.env.NODE_ENV === "production";
 if (isProd) {
   app.set("trust proxy", 1);
@@ -99891,8 +100351,8 @@ app.use(
   })
 );
 app.use((0, import_cors.default)({ origin: true, credentials: true }));
-app.use(import_express12.default.json({ limit: "5mb" }));
-app.use(import_express12.default.urlencoded({ extended: true }));
+app.use(import_express13.default.json({ limit: "5mb" }));
+app.use(import_express13.default.urlencoded({ extended: true }));
 app.use(
   (0, import_express_session.default)({
     secret: process.env.SESSION_SECRET ?? "ayotrix-secret-key-2024",
@@ -99925,7 +100385,7 @@ function resolveFrontendPath() {
 }
 var frontendPath = resolveFrontendPath();
 logger.info({ frontendPath }, "Serving frontend static files");
-app.use(import_express12.default.static(frontendPath));
+app.use(import_express13.default.static(frontendPath));
 app.use((req, res, next) => {
   if (req.path.startsWith("/api")) {
     return next();

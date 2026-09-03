@@ -1018,3 +1018,11 @@ components:
           type: string
         address:
           type: string
+        privacyPolicyContent:
+          type: string
+        privacyPolicyLastUpdated:
+          type: string
+        termsOfServiceContent:
+          type: string
+        termsOfServiceLastUpdated:
+          type: string

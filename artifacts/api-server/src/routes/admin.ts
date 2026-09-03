@@ -1,21 +1,27 @@
 import { Router, type Request, type Response } from "express";
-import { SiteSettingsModel } from "@workspace/db";
+import { SiteSettingsModel, DEFAULT_PRIVACY_POLICY, DEFAULT_TERMS_OF_SERVICE } from "@workspace/db";
 
 const router = Router();
-const ADMIN_SESSION_KEY = "ayotrix_admin";
+import { requireAdmin, ADMIN_SESSION_KEY } from "../middlewares/auth";
 
 async function getSettings() {
   let settings = await SiteSettingsModel.findOne({ key: "main" });
   if (!settings) {
     settings = await SiteSettingsModel.create({ key: "main", password: "525252" });
   }
+  if (!settings.privacyPolicyContent) {
+    settings.privacyPolicyContent = DEFAULT_PRIVACY_POLICY;
+    settings.privacyPolicyLastUpdated = "July 29, 2026";
+    await settings.save();
+  }
+  if (!settings.termsOfServiceContent) {
+    settings.termsOfServiceContent = DEFAULT_TERMS_OF_SERVICE;
+    settings.termsOfServiceLastUpdated = "July 29, 2026";
+    await settings.save();
+  }
   return settings;
 }
 
-function requireAdmin(req: any, res: any, next: any) {
-  if ((req.session as any)[ADMIN_SESSION_KEY]) return next();
-  return res.status(401).json({ error: "Not authenticated" });
-}
 
 router.post("/admin/login", async (req: Request, res: Response) => {
   const { password } = req.body;
@@ -63,14 +69,42 @@ router.get("/admin/site-settings", requireAdmin, async (req: Request, res: Respo
     phone: settings.phone,
     email: settings.email,
     address: settings.address,
+    privacyPolicyContent: settings.privacyPolicyContent,
+    privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
+    termsOfServiceContent: settings.termsOfServiceContent,
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
   });
 });
 
 router.put("/admin/site-settings", requireAdmin, async (req: Request, res: Response) => {
-  const { logoUrl, companyName, contactPerson, phone, email, address } = req.body;
+  const {
+    logoUrl,
+    companyName,
+    contactPerson,
+    phone,
+    email,
+    address,
+    privacyPolicyContent,
+    privacyPolicyLastUpdated,
+    termsOfServiceContent,
+    termsOfServiceLastUpdated,
+  } = req.body;
   await SiteSettingsModel.updateOne(
     { key: "main" },
-    { $set: { logoUrl, companyName, contactPerson, phone, email, address } },
+    {
+      $set: {
+        logoUrl,
+        companyName,
+        contactPerson,
+        phone,
+        email,
+        address,
+        privacyPolicyContent,
+        privacyPolicyLastUpdated,
+        termsOfServiceContent,
+        termsOfServiceLastUpdated,
+      },
+    },
     { upsert: true }
   );
   res.json({ success: true });
@@ -85,6 +119,10 @@ router.get("/site-settings", async (req: Request, res: Response) => {
     phone: settings.phone,
     email: settings.email,
     address: settings.address,
+    privacyPolicyContent: settings.privacyPolicyContent,
+    privacyPolicyLastUpdated: settings.privacyPolicyLastUpdated,
+    termsOfServiceContent: settings.termsOfServiceContent,
+    termsOfServiceLastUpdated: settings.termsOfServiceLastUpdated,
   });
 });
 

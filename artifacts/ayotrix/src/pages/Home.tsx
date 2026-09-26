@@ -7,6 +7,7 @@ import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scrol
 import { Card3D } from "@/components/ui/card-3d";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import MessagingSection from "@/components/MessagingSection";
+import GetStartedForm from "@/components/GetStartedForm";
 import { useGetBanners, useGetServices, useGetProducts, useGetSiteSettings } from "@workspace/api-client-react";
 import SeoHead from "@/components/SeoHead";
 import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
@@ -185,7 +186,18 @@ function HeroBanner() {
                   <Link href={slide.ctaLink}>{slide.cta} <ArrowRight className="ml-2 w-5 h-5 shrink-0" /></Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="border-white/25 text-white hover:bg-white/10 px-8 py-6 text-base rounded-2xl">
-                  <Link href="/contact">Get Free Quote <ChevronRight className="ml-1 w-4 h-4 shrink-0" /></Link>
+                  <a
+                    href="#get-started"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById("get-started");
+                      const lenis = (window as any).__lenis;
+                      if (el && lenis) lenis.scrollTo(el, { offset: -20 });
+                      else el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                  >
+                    Get Free Quote <ChevronRight className="ml-1 w-4 h-4 shrink-0" />
+                  </a>
                 </Button>
               </motion.div>
 
@@ -507,38 +519,74 @@ function PlayStoreAppSection() {
 }
 
 function CTASection() {
+  const highlights = [
+    "Free consultation within 24 hours",
+    "Custom quote for your exact use case",
+    "Apps, WhatsApp, RCS & digital growth",
+  ];
+
   return (
-    <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #070D18 0%, #0A1A10 50%, #071428 100%)" }}>
+    <section
+      id="get-started"
+      className="relative overflow-hidden"
+      style={{ background: "linear-gradient(135deg, #070D18 0%, #0A1A10 50%, #071428 100%)" }}
+    >
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(18,99,232,0.28), transparent)", transform: "translateY(-50%)" }} />
-        <div className="absolute top-1/2 right-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(110,221,0,0.18), transparent)", transform: "translateY(-50%)" }} />
+        <div
+          className="absolute top-1/2 left-1/4 w-96 h-96 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(18,99,232,0.28), transparent)", transform: "translateY(-50%)" }}
+        />
+        <div
+          className="absolute top-1/2 right-1/5 w-80 h-80 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(110,221,0,0.18), transparent)", transform: "translateY(-50%)" }}
+        />
       </div>
-      <div className="container mx-auto px-4 max-w-4xl py-24 text-center relative z-10">
-        <ScrollReveal>
-          <div className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#A3E635" }}>Get Started Today</div>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
-            Ready to Build Something<br />
-            <span style={{ backgroundImage: "linear-gradient(90deg, #1A8FFF, #6EDD00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Extraordinary?
-            </span>
-          </h2>
-          <p className="text-xl max-w-xl mx-auto mb-10" style={{ color: "rgba(200,230,200,0.7)" }}>
-            Join 2000+ companies that trust Ayotrix Infotech to power their digital transformation.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button asChild size="lg" className="font-bold px-10 py-6 text-lg rounded-2xl"
-                style={{ background: "linear-gradient(135deg, #1263E8, #6EDD00)", color: "#fff", boxShadow: "0 0 32px rgba(110,221,0,0.3)" }}>
-                <Link href="/contact">Start Your Project <ArrowRight className="ml-2 w-5 h-5" /></Link>
-              </Button>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}>
-              <Button asChild variant="outline" size="lg" className="border-white/25 text-white hover:bg-white/10 px-10 py-6 text-lg rounded-2xl">
+
+      <div className="container mx-auto px-4 max-w-7xl py-20 md:py-24 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <ScrollReveal>
+            <div className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#A3E635" }}>
+              Get Started Today
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-[3.25rem] font-black text-white mb-5 leading-tight">
+              Ready to Build Something{" "}
+              <span
+                style={{
+                  backgroundImage: "linear-gradient(90deg, #1A8FFF, #6EDD00)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                }}
+              >
+                Extraordinary?
+              </span>
+            </h2>
+            <p className="text-lg md:text-xl max-w-lg mb-8 leading-relaxed" style={{ color: "rgba(200,230,200,0.72)" }}>
+              Join 2000+ companies that trust Ayotrix Infotech. Share a few details and our team will reach out with the right plan.
+            </p>
+            <ul className="space-y-3 mb-8">
+              {highlights.map((item) => (
+                <li key={item} className="flex items-center gap-3 text-sm md:text-base" style={{ color: "rgba(226,232,240,0.9)" }}>
+                  <CheckCircle2 className="w-5 h-5 shrink-0" style={{ color: "#6EDD00" }} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="outline" size="lg" className="border-white/25 text-white hover:bg-white/10 rounded-2xl px-6">
                 <Link href="/products">View Products</Link>
               </Button>
-            </motion.div>
-          </div>
-        </ScrollReveal>
+              <Button asChild variant="ghost" size="lg" className="text-blue-300 hover:text-white hover:bg-white/5 rounded-2xl px-6">
+                <Link href="/contact">
+                  Full contact page <ArrowRight className="ml-1.5 w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.12}>
+            <GetStartedForm />
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );

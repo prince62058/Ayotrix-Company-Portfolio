@@ -36,6 +36,7 @@ export default function GetStartedForm() {
   const { data: settings } = useGetSiteSettings();
   const mutation = useSubmitContact();
   const [submitted, setSubmitted] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -54,9 +55,18 @@ export default function GetStartedForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      toast({
+        title: "Consent required",
+        description: "Please agree to receive communication before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
     const messageBody = [
       form.service ? `Service: ${form.service}` : null,
       form.message?.trim() || "Interested in getting started. Please contact me.",
+      "Consent: Agreed to receive newsletters, promotional content, offers, and events via SMS, RCS, and WhatsApp.",
     ]
       .filter(Boolean)
       .join("\n\n");
@@ -74,6 +84,7 @@ export default function GetStartedForm() {
       {
         onSuccess: () => {
           setSubmitted(true);
+          setAgreed(false);
           toast({
             title: "Inquiry sent!",
             description: "We'll get back to you within 24 hours.",
@@ -142,6 +153,7 @@ export default function GetStartedForm() {
                 type="button"
                 onClick={() => {
                   setSubmitted(false);
+                  setAgreed(false);
                   setForm({ name: "", email: "", phone: "", service: "", message: "" });
                 }}
                 className="mt-6 text-sm font-semibold text-primary hover:underline"
@@ -213,9 +225,22 @@ export default function GetStartedForm() {
                 className={`${fieldClass} resize-none`}
               />
 
+              <label className="flex items-start gap-2.5 cursor-pointer select-none py-0.5">
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  required
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-gray-300 text-primary accent-primary cursor-pointer"
+                />
+                <span className="text-xs leading-relaxed" style={{ color: "#64748B" }}>
+                  I agree to receive communication on newsletters, promotional content, offers, and events through SMS, RCS, and WhatsApp.
+                </span>
+              </label>
+
               <motion.button
                 type="submit"
-                disabled={mutation.isPending}
+                disabled={mutation.isPending || !agreed}
                 whileHover={{ scale: mutation.isPending ? 1 : 1.015 }}
                 whileTap={{ scale: mutation.isPending ? 1 : 0.985 }}
                 className="mt-1 w-full py-3.5 rounded-xl text-base font-bold text-white flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"

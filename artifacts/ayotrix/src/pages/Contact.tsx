@@ -27,6 +27,7 @@ export default function Contact() {
   const { data: settings } = useGetSiteSettings();
   const mutation = useSubmitContact();
   const [submitted, setSubmitted] = useState(false);
+  const [agreed, setAgreed] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", phone: "", subject: "", message: "" });
 
   const companyName = settings?.companyName || DEFAULTS.companyName;
@@ -44,11 +45,25 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      toast({
+        title: "Consent required",
+        description: "Please agree to receive communication before submitting.",
+        variant: "destructive",
+      });
+      return;
+    }
     mutation.mutate(
-      { data: form },
+      {
+        data: {
+          ...form,
+          message: `${form.message.trim()}\n\nConsent: Agreed to receive newsletters, promotional content, offers, and events via SMS, RCS, and WhatsApp.`,
+        },
+      },
       {
         onSuccess: () => {
           setSubmitted(true);
+          setAgreed(false);
           toast({ title: "Message sent!", description: "We'll get back to you within 24 hours." });
         },
         onError: (err: any) => {
@@ -203,9 +218,21 @@ export default function Contact() {
                     className="bg-background border-border text-foreground dark:text-white placeholder:text-muted-foreground/50 rounded-2xl resize-none focus-visible:ring-primary"
                   />
                 </div>
+                <label className="flex items-start gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    required
+                    className="mt-0.5 h-4 w-4 shrink-0 rounded border-border text-primary accent-primary cursor-pointer"
+                  />
+                  <span className="text-xs text-muted-foreground leading-relaxed">
+                    I agree to receive communication on newsletters, promotional content, offers, and events through SMS, RCS, and WhatsApp.
+                  </span>
+                </label>
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button
-                    type="submit" disabled={mutation.isPending} size="lg"
+                    type="submit" disabled={mutation.isPending || !agreed} size="lg"
                     className="w-full bg-primary text-white font-bold rounded-2xl shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_35px_rgba(37,99,235,0.6)] transition-all duration-300"
                   >
                     {mutation.isPending ? "Sending..." : <><Send className="w-4 h-4 mr-2" /> Send Message</>}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Phone, ChevronDown, Smartphone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown, Smartphone, ArrowRight } from "lucide-react";
 import logoImg from "@assets/a_logo_(1)_1781854062528.png";
 import { SERVICES, PRODUCTS, DM_SERVICES } from "@/lib/static-data";
 import { useGetSiteSettings, useGetServices, useGetProducts } from "@workspace/api-client-react";
@@ -137,80 +137,94 @@ export default function Navbar() {
 
           <div className="hidden md:block w-px h-5 shrink-0 mx-1" style={{ background: "rgba(0,0,0,0.08)" }} />
 
-          <div className="hidden md:flex items-center gap-0.5 flex-1 justify-center">
+          <div className="hidden md:flex items-center gap-1 flex-1 justify-center">
             <Link
               href="/"
-              className="relative px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
-              style={{ color: location === "/" ? "#2563EB" : "rgba(30,45,80,0.65)", background: location === "/" ? "rgba(29,99,238,0.08)" : "transparent" }}
+              className={`relative px-3.5 py-1.5 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap ${
+                location === "/"
+                  ? "text-blue-600 bg-blue-50/90 border border-blue-200/60 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               Home
             </Link>
 
-            {topLinks.map(({ key, label, href, items }) => (
-              <div
-                key={key}
-                className="relative"
-                onMouseEnter={() => openDropdown(key)}
-                onMouseLeave={closeDropdown}
-              >
-                <Link
-                  href={href}
-                  className="relative flex items-center gap-1 px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
-                  style={{ color: isActive(href) ? "#2563EB" : "rgba(30,45,80,0.65)", background: isActive(href) ? "rgba(29,99,238,0.08)" : "transparent" }}
+            {topLinks.map(({ key, label, href, items }) => {
+              const active = isActive(href);
+              return (
+                <div
+                  key={key}
+                  className="relative"
+                  onMouseEnter={() => openDropdown(key)}
+                  onMouseLeave={closeDropdown}
                 >
-                  {label}
-                  <ChevronDown className="w-3.5 h-3.5 opacity-60" style={{ transform: activeDropdown === key ? "rotate(180deg)" : "rotate(0)", transition: "transform 0.2s" }} />
-                </Link>
-                <AnimatePresence>
-                  {activeDropdown === key && (
-                    <DropdownMenu items={items} onClose={() => setActiveDropdown(null)} />
-                  )}
-                </AnimatePresence>
-              </div>
-            ))}
+                  <Link
+                    href={href}
+                    className={`relative flex items-center gap-1 px-3.5 py-1.5 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap ${
+                      active
+                        ? "text-blue-600 bg-blue-50/90 border border-blue-200/60 shadow-xs"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                    }`}
+                  >
+                    {label}
+                    <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${active ? "text-blue-600" : "opacity-60"}`} style={{ transform: activeDropdown === key ? "rotate(180deg)" : "rotate(0)" }} />
+                  </Link>
+                  <AnimatePresence>
+                    {activeDropdown === key && (
+                      <DropdownMenu items={items} onClose={() => setActiveDropdown(null)} />
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
 
             <Link
               href="/about"
-              className="relative px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
-              style={{ color: isActive("/about") ? "#2563EB" : "rgba(30,45,80,0.65)", background: isActive("/about") ? "rgba(29,99,238,0.08)" : "transparent" }}
+              className={`relative px-3.5 py-1.5 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap ${
+                isActive("/about")
+                  ? "text-blue-600 bg-blue-50/90 border border-blue-200/60 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               About
             </Link>
             <Link
               href="/contact"
-              className="relative px-3 py-2 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap"
-              style={{ color: isActive("/contact") ? "#2563EB" : "rgba(30,45,80,0.65)", background: isActive("/contact") ? "rgba(29,99,238,0.08)" : "transparent" }}
+              className={`relative px-3.5 py-1.5 text-[14px] font-semibold transition-all duration-200 rounded-full select-none whitespace-nowrap ${
+                isActive("/contact")
+                  ? "text-blue-600 bg-blue-50/90 border border-blue-200/60 shadow-xs"
+                  : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+              }`}
             >
               Contact
             </Link>
             <Link
               href="/app"
-              className="relative px-3 py-2 text-[14px] font-bold transition-all duration-200 rounded-full select-none whitespace-nowrap flex items-center gap-1.5"
-              style={{ color: isActive("/app") ? "#2563EB" : "#10B981", background: isActive("/app") ? "rgba(29,99,238,0.08)" : "rgba(16,185,129,0.08)" }}
+              className="relative px-3 py-1 text-[13px] font-bold transition-all duration-200 rounded-full select-none whitespace-nowrap flex items-center gap-1.5 text-emerald-600 bg-emerald-50 border border-emerald-200/70 hover:bg-emerald-100/60"
             >
-              <Smartphone className="w-3.5 h-3.5 text-emerald-500" />
+              <Smartphone className="w-3.5 h-3.5 text-emerald-600" />
               App
             </Link>
           </div>
 
           <div className="hidden md:block w-px h-5 shrink-0 mx-1" style={{ background: "rgba(0,0,0,0.08)" }} />
 
-          <div className="flex items-center gap-1 px-1 shrink-0">
+          <div className="flex items-center gap-2 px-1 shrink-0">
             <a
               href={`tel:${settings?.phone || "+919752045356"}`}
-              className="hidden lg:flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] font-semibold"
-              style={{ color: "rgba(50,70,110,0.75)", background: "rgba(0,0,0,0.04)" }}
+              className="hidden lg:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[13px] font-semibold text-slate-700 bg-slate-100/80 border border-slate-200/60 hover:bg-slate-200/60 transition-colors"
             >
-              <Phone className="w-4 h-4" />
+              <Phone className="w-3.5 h-3.5 text-slate-500" />
               {settings?.phone || "+91 97520 45356"}
             </a>
-            <motion.div whileHover={{ scale: 1.05, y: -1 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.97 }}>
               <Link
                 href="/contact"
-                className="hidden md:flex items-center px-5 py-2 rounded-full text-[14px] font-bold text-white select-none"
-                style={{ background: "linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%)", boxShadow: "0 1px 0 rgba(255,255,255,0.30) inset, 0 4px 14px rgba(37,99,235,0.35)" }}
+                className="hidden md:flex items-center gap-1.5 px-5 py-2 rounded-full text-[14px] font-bold text-white select-none shadow-md shadow-blue-500/25"
+                style={{ background: "linear-gradient(135deg, #1D4ED8 0%, #2563EB 100%)" }}
               >
-                Get in Touch
+                <span>Get in Touch</span>
+                <ArrowRight className="w-4 h-4 ml-0.5" />
               </Link>
             </motion.div>
 

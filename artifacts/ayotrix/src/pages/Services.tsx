@@ -10,14 +10,11 @@ import {
   Users, 
   ShoppingCart, 
   Car, 
-  Wrench,
-  CheckCircle2
+  Wrench
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import SeoHead from "@/components/SeoHead";
-import ServicesHeroShowcase from "@/components/showcase/ServicesHeroShowcase";
-import { EcommerceCardVisual, TaxiCardVisual, MarketplaceCardVisual } from "@/components/showcase/ServicesCardVisuals";
 
 export default function Services() {
   const serviceCards = [
@@ -31,13 +28,13 @@ export default function Services() {
       numberColor: "text-purple-200",
       checkColor: "bg-purple-600 text-white",
       buttonClass: "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md shadow-purple-500/25",
+      image: "/assets/showcase/service_ecommerce_pro.png",
       points: [
         "Custom E-commerce Apps",
         "Secure Payment Integration",
         "Inventory & Order Management",
         "User & Admin Panel"
-      ],
-      Visual: EcommerceCardVisual
+      ]
     },
     {
       id: "02",
@@ -49,13 +46,13 @@ export default function Services() {
       numberColor: "text-orange-200",
       checkColor: "bg-orange-500 text-white",
       buttonClass: "bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/25",
+      image: "/assets/showcase/service_taxi_pro.png",
       points: [
         "Real-time GPS Tracking",
         "Customer & Driver App",
         "Multiple Payment Options",
         "Promo Codes & Wallet System"
-      ],
-      Visual: TaxiCardVisual
+      ]
     },
     {
       id: "03",
@@ -67,13 +64,13 @@ export default function Services() {
       numberColor: "text-emerald-200",
       checkColor: "bg-emerald-600 text-white",
       buttonClass: "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-md shadow-emerald-500/25",
+      image: "/assets/showcase/service_marketplace_pro.png",
       points: [
         "Multi-provider Marketplace",
         "Service Booking & Scheduling",
         "Provider Verification",
         "Ratings & Reviews"
-      ],
-      Visual: MarketplaceCardVisual
+      ]
     }
   ];
 
@@ -93,7 +90,7 @@ export default function Services() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative z-10 pt-4 md:pt-8 pb-12 md:pb-16">
+      <section className="relative z-10 pt-4 md:pt-8 pb-10 md:pb-14">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
@@ -184,21 +181,32 @@ export default function Services() {
               </div>
             </motion.div>
 
-            {/* Right Showcase: 3 Angled Phones & Floating Badges */}
+            {/* Right Showcase: Exact 3D Master Composition */}
             <div className="lg:col-span-6 flex justify-center">
-              <ServicesHeroShowcase />
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.7 }}
+                whileHover={{ scale: 1.02, transition: { duration: 0.25 } }}
+                className="relative select-none w-full max-w-[580px]"
+              >
+                <img 
+                  src="/assets/showcase/services_hero_showcase_pro.png" 
+                  alt="Ayotrix Services 3D Showcase"
+                  className="w-full h-auto object-contain drop-shadow-[0_20px_45px_rgba(37,99,235,0.18)]"
+                />
+              </motion.div>
             </div>
           </div>
         </div>
       </section>
 
       {/* 3 CORE SERVICES CARDS SECTION */}
-      <section className="relative z-10 py-12 md:py-16">
+      <section className="relative z-10 py-10 md:py-14">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
             {serviceCards.map((service, index) => {
               const IconComp = service.icon;
-              const VisualComp = service.Visual;
               return (
                 <motion.div
                   key={service.slug}
@@ -207,59 +215,62 @@ export default function Services() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                   whileHover={{ y: -6 }}
-                  className="group relative flex flex-col justify-between rounded-[2.25rem] bg-white border border-slate-100/90 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_48px_rgba(37,99,235,0.08)] transition-all duration-300"
+                  className="group relative flex flex-row overflow-hidden rounded-[2.25rem] bg-white border border-slate-100/90 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_48px_rgba(37,99,235,0.09)] transition-all duration-300"
                 >
-                  {/* Top Header Row with Icon and Large Number */}
-                  <div>
-                    <div className="flex items-center justify-between mb-5">
-                      <div className={`w-12 h-12 rounded-2xl ${service.iconBg} flex items-center justify-center shadow-md`}>
-                        <IconComp className="w-6 h-6" />
+                  {/* Left Content Area (56% width) */}
+                  <div className="flex-1 p-6 sm:p-7 flex flex-col justify-between z-10">
+                    <div>
+                      {/* Top Icon */}
+                      <div className="mb-4">
+                        <div className={`w-12 h-12 rounded-2xl ${service.iconBg} flex items-center justify-center shadow-md`}>
+                          <IconComp className="w-6 h-6" />
+                        </div>
                       </div>
-                      <div className={`text-4xl sm:text-5xl font-black font-mono tracking-tight select-none opacity-80 ${service.numberColor}`}>
-                        {service.id}
+
+                      {/* Card Title */}
+                      <h3 className="text-xl sm:text-2xl font-black text-[#0A1628] leading-tight mb-2.5">
+                        {service.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-5">
+                        {service.description}
+                      </p>
+
+                      {/* Checklist of 4 Points */}
+                      <div className="space-y-2 mb-6">
+                        {service.points.map((pt, i) => (
+                          <div key={i} className="flex items-center gap-2">
+                            <div className={`w-4 h-4 rounded-full ${service.checkColor} flex items-center justify-center shrink-0`}>
+                              <Check className="w-2.5 h-2.5" />
+                            </div>
+                            <span className="text-xs sm:text-sm font-semibold text-slate-800">
+                              {pt}
+                            </span>
+                          </div>
+                        ))}
                       </div>
                     </div>
 
-                    {/* Card Title */}
-                    <h3 className="text-xl sm:text-2xl font-black text-[#0A1628] leading-tight mb-3">
-                      {service.title}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                      {service.description}
-                    </p>
-
-                    {/* Checklist of 4 Points */}
-                    <div className="space-y-2.5 mb-6">
-                      {service.points.map((pt, i) => (
-                        <div key={i} className="flex items-center gap-2.5">
-                          <div className={`w-4 h-4 rounded-full ${service.checkColor} flex items-center justify-center shrink-0`}>
-                            <Check className="w-2.5 h-2.5" />
-                          </div>
-                          <span className="text-xs sm:text-sm font-semibold text-slate-800">
-                            {pt}
-                          </span>
-                        </div>
-                      ))}
+                    {/* Learn More CTA */}
+                    <div>
+                      <Link
+                        href={`/services/${service.slug}`}
+                        className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 rounded-full font-bold text-xs sm:text-sm select-none transition-all duration-200 ${service.buttonClass}`}
+                      >
+                        <span>Learn More</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
                     </div>
                   </div>
 
-                  {/* Card Bottom Area: Visual Illustration & Learn More CTA */}
-                  <div className="mt-2">
-                    {/* Rich 3D Visual Render Component */}
-                    <div className="mb-6">
-                      <VisualComp />
-                    </div>
-
-                    {/* CTA Button */}
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3 rounded-full font-bold text-sm select-none transition-all duration-200 ${service.buttonClass}`}
-                    >
-                      <span>Learn More</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
+                  {/* Right Graphic Area: Master 3D Illustration + Watermark */}
+                  <div className="w-[44%] relative overflow-hidden pointer-events-none select-none flex items-center justify-end">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                 </motion.div>
               );

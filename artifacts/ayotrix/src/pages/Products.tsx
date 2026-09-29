@@ -1,23 +1,34 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { 
-  ArrowRight, 
-  Check, 
-  Zap, 
-  ShieldCheck, 
-  BarChart3, 
-  Headphones, 
-  MessageSquare, 
-  Bot, 
-  MapPin, 
-  Lock, 
+import {
+  ArrowRight,
+  Check,
+  Zap,
+  ShieldCheck,
+  BarChart3,
+  Headphones,
+  MessageSquare,
+  Bot,
+  MapPin,
+  Lock,
   Smartphone,
   TrendingUp
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import SeoHead from "@/components/SeoHead";
+import ProductsHeroShowcase from "@/components/showcase/ProductsHeroShowcase";
+import {
+  AdsVisual,
+  WhatsAppMarketingVisual,
+  RcsVisual,
+  OtpVisual,
+  AiAgentsVisual,
+  WhatsAppChatbotVisual,
+  GmbVisual,
+  GoogleAdsVisual
+} from "@/components/showcase/ProductsCardVisuals";
 
 export default function Products() {
   const productCards = [
@@ -31,12 +42,12 @@ export default function Products() {
       numberColor: "text-purple-200",
       checkColor: "bg-purple-600 text-white",
       buttonClass: "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-md shadow-purple-500/20",
-      image: "/assets/showcase/card_ads_pro.png",
       points: [
         "Meta, Google & LinkedIn Ads",
         "High ROI Campaigns",
         "Audience Targeting & Optimization"
-      ]
+      ],
+      Visual: AdsVisual
     },
     {
       id: "02",
@@ -48,12 +59,12 @@ export default function Products() {
       numberColor: "text-emerald-200",
       checkColor: "bg-emerald-500 text-white",
       buttonClass: "bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 text-white shadow-md shadow-emerald-500/20",
-      image: "/assets/showcase/card_whatsapp_pro.png",
       points: [
         "Bulk Messaging",
         "Personalized Campaigns",
         "Automation & Scheduling"
-      ]
+      ],
+      Visual: WhatsAppMarketingVisual
     },
     {
       id: "03",
@@ -65,12 +76,12 @@ export default function Products() {
       numberColor: "text-blue-200",
       checkColor: "bg-blue-600 text-white",
       buttonClass: "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20",
-      image: "/assets/showcase/card_rcs_pro.png",
       points: [
         "Rich Media Messaging",
         "Verified Brand Identity",
         "Higher Engagement Rate"
-      ]
+      ],
+      Visual: RcsVisual
     },
     {
       id: "04",
@@ -82,12 +93,12 @@ export default function Products() {
       numberColor: "text-orange-200",
       checkColor: "bg-orange-500 text-white",
       buttonClass: "bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-md shadow-orange-500/20",
-      image: "/assets/showcase/card_otp_pro.png",
       points: [
         "Transactional OTP",
         "High Delivery Rate",
         "Enterprise Grade Security"
-      ]
+      ],
+      Visual: OtpVisual
     },
     {
       id: "05",
@@ -99,12 +110,12 @@ export default function Products() {
       numberColor: "text-pink-200",
       checkColor: "bg-pink-600 text-white",
       buttonClass: "bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 text-white shadow-md shadow-pink-500/20",
-      image: "/assets/showcase/card_ai_agents_pro.png",
       points: [
         "Automate Customer Support",
         "Lead Generation & Qualification",
         "AI-Powered Responses"
-      ]
+      ],
+      Visual: AiAgentsVisual
     },
     {
       id: "06",
@@ -116,12 +127,12 @@ export default function Products() {
       numberColor: "text-teal-200",
       checkColor: "bg-teal-600 text-white",
       buttonClass: "bg-gradient-to-r from-teal-500 to-emerald-600 hover:from-teal-600 hover:to-emerald-700 text-white shadow-md shadow-teal-500/20",
-      image: "/assets/showcase/card_chatbot_pro.png",
       points: [
         "Smart Chat Flows",
         "Lead Capture & Nurturing",
         "Integrations with CRM"
-      ]
+      ],
+      Visual: WhatsAppChatbotVisual
     },
     {
       id: "07",
@@ -133,12 +144,12 @@ export default function Products() {
       numberColor: "text-blue-200",
       checkColor: "bg-blue-600 text-white",
       buttonClass: "bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md shadow-blue-500/20",
-      image: "/assets/showcase/card_gmb_pro.png",
       points: [
         "Google Business Profile Setup",
         "Local SEO Optimization",
         "More Calls, Visits & Leads"
-      ]
+      ],
+      Visual: GmbVisual
     },
     {
       id: "08",
@@ -150,12 +161,12 @@ export default function Products() {
       numberColor: "text-amber-200",
       checkColor: "bg-amber-500 text-white",
       buttonClass: "bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md shadow-amber-500/20",
-      image: "/assets/showcase/card_google_ads_pro.png",
       points: [
         "Search, Display & YouTube Ads",
         "Keyword Research & Bidding",
         "Performance Tracking"
-      ]
+      ],
+      Visual: GoogleAdsVisual
     }
   ];
 
@@ -175,11 +186,11 @@ export default function Products() {
       </div>
 
       {/* HERO SECTION */}
-      <section className="relative z-10 pt-4 md:pt-8 pb-10 md:pb-14">
+      <section className="relative z-10 pt-4 md:pt-8 pb-12 md:pb-16">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Content */}
-            <motion.div 
+            <motion.div
               className="lg:col-span-6 flex flex-col items-start"
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
@@ -196,17 +207,17 @@ export default function Products() {
                 <span className="relative inline-block text-[#0A1628]">
                   Products
                   {/* Elegant Blue Smile / Swoosh underline */}
-                  <svg 
-                    className="absolute -bottom-2.5 left-0 w-full overflow-visible" 
-                    height="12" 
-                    viewBox="0 0 100 12" 
-                    fill="none" 
+                  <svg
+                    className="absolute -bottom-2.5 left-0 w-full overflow-visible"
+                    height="12"
+                    viewBox="0 0 100 12"
+                    fill="none"
                     preserveAspectRatio="none"
                   >
-                    <path 
-                      d="M2 3C28 11 72 11 98 3" 
-                      stroke="#2563EB" 
-                      strokeWidth="3.8" 
+                    <path
+                      d="M2 3C28 11 72 11 98 3"
+                      stroke="#2563EB"
+                      strokeWidth="3.8"
                       strokeLinecap="round"
                     />
                   </svg>
@@ -254,96 +265,83 @@ export default function Products() {
               </div>
             </motion.div>
 
-            {/* Right Showcase: Exact 3D Master Composition */}
+            {/* Right Showcase: Laptop Dashboard & WhatsApp Phone */}
             <div className="lg:col-span-6 flex justify-center">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.7 }}
-                whileHover={{ scale: 1.02, transition: { duration: 0.25 } }}
-                className="relative select-none w-full max-w-[580px]"
-              >
-                <img 
-                  src="/assets/showcase/products_hero_showcase_pro.png" 
-                  alt="Ayotrix Communication Suite Products Showcase"
-                  className="w-full h-auto object-contain drop-shadow-[0_20px_45px_rgba(37,99,235,0.18)]"
-                />
-              </motion.div>
+              <ProductsHeroShowcase />
             </div>
           </div>
         </div>
       </section>
 
       {/* 8 PRODUCTS CARDS SECTION (4x2 GRID) */}
-      <section className="relative z-10 py-10 md:py-14">
+      <section className="relative z-10 py-12 md:py-16">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {productCards.map((product, index) => {
               const IconComp = product.icon;
+              const VisualComp = product.Visual;
               return (
                 <motion.div
                   key={product.slug}
-                  initial={{ opacity: 0, y: 25 }}
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.45, delay: index * 0.06 }}
-                  whileHover={{ y: -5 }}
-                  className="group relative flex flex-row overflow-hidden rounded-[2rem] bg-white border border-slate-100/90 shadow-[0_6px_28px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(37,99,235,0.09)] transition-all duration-300"
+                  transition={{ duration: 0.45, delay: index * 0.08 }}
+                  whileHover={{ y: -6 }}
+                  className="group relative flex flex-col justify-between rounded-[2rem] bg-white border border-slate-100/90 p-5 sm:p-6 shadow-[0_6px_28px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_40px_rgba(37,99,235,0.08)] transition-all duration-300"
                 >
-                  {/* Left Content Area (58% width) */}
-                  <div className="flex-1 p-5 sm:p-6 flex flex-col justify-between z-10">
-                    <div>
-                      {/* Top Icon Badge */}
-                      <div className="mb-3">
-                        <div className={`w-10 h-10 rounded-xl ${product.iconBg} flex items-center justify-center shadow-sm`}>
-                          <IconComp className="w-5 h-5" />
-                        </div>
+                  {/* Card Header & Content */}
+                  <div>
+                    {/* Top Row: Icon badge & Number */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className={`w-10 h-10 rounded-xl ${product.iconBg} flex items-center justify-center shadow-sm`}>
+                        <IconComp className="w-5 h-5" />
                       </div>
-
-                      {/* Card Title */}
-                      <h3 className="text-base sm:text-lg font-black text-[#0A1628] leading-tight mb-1.5">
-                        {product.title}
-                      </h3>
-
-                      {/* Card Description */}
-                      <p className="text-slate-500 text-xs leading-relaxed mb-3.5">
-                        {product.description}
-                      </p>
-
-                      {/* Bullet Points with Checkmarks */}
-                      <div className="space-y-1.5 mb-4">
-                        {product.points.map((pt, i) => (
-                          <div key={i} className="flex items-center gap-1.5">
-                            <div className={`w-3.5 h-3.5 rounded-full ${product.checkColor} flex items-center justify-center shrink-0`}>
-                              <Check className="w-2 h-2" />
-                            </div>
-                            <span className="text-[11px] font-semibold text-slate-800 leading-snug">
-                              {pt}
-                            </span>
-                          </div>
-                        ))}
+                      <div className={`text-3xl font-black font-mono tracking-tight select-none opacity-80 ${product.numberColor}`}>
+                        {product.id}
                       </div>
                     </div>
 
-                    {/* Learn More Button */}
-                    <div>
-                      <Link
-                        href={`/products/${product.slug}`}
-                        className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full font-bold text-xs select-none transition-all duration-200 ${product.buttonClass}`}
-                      >
-                        <span>Learn More</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
+                    {/* Card Title */}
+                    <h3 className="text-lg font-black text-[#0A1628] leading-tight mb-2">
+                      {product.title}
+                    </h3>
+
+                    {/* Card Description */}
+                    <p className="text-slate-500 text-xs leading-relaxed mb-4 min-h-[34px]">
+                      {product.description}
+                    </p>
+
+                    {/* Bullet Points with Checkmarks */}
+                    <div className="space-y-2 mb-4">
+                      {product.points.map((pt, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <div className={`w-3.5 h-3.5 rounded-full ${product.checkColor} flex items-center justify-center shrink-0`}>
+                            <Check className="w-2 h-2" />
+                          </div>
+                          <span className="text-xs font-semibold text-slate-800 truncate">
+                            {pt}
+                          </span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Right Graphic Area: Master 3D Illustration + Watermark */}
-                  <div className="w-[42%] relative overflow-hidden pointer-events-none select-none flex items-center justify-end">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-full h-full object-cover object-right group-hover:scale-105 transition-transform duration-300"
-                    />
+                  {/* Card Visual Illustration & Button */}
+                  <div className="mt-2">
+                    {/* 3D Visual */}
+                    <div className="mb-4">
+                      <VisualComp />
+                    </div>
+
+                    {/* Button */}
+                    <Link
+                      href={`/products/${product.slug}`}
+                      className={`w-full inline-flex items-center justify-center gap-1.5 px-5 py-2.5 rounded-full font-bold text-xs select-none transition-all duration-200 ${product.buttonClass}`}
+                    >
+                      <span>Learn More</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </motion.div>
               );

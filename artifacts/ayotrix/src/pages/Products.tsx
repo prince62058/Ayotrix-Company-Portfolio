@@ -8,14 +8,13 @@ import ProductsShowcaseSection from "@/components/sections/ProductsShowcaseSecti
 
 export default function Products() {
   return (
-    <div className="min-h-screen bg-[#FAFCFF] pt-16 md:pt-20">
+    <div className="min-h-screen bg-[#FAFCFF] pt-20 md:pt-24 relative overflow-hidden">
       <SeoHead
-        title="Communication Products | WhatsApp Marketing, RCS, AI Agents & OTP | Ayotrix"
+        title="Our Products | Communication Suite, WhatsApp, RCS, OTP & AI | Ayotrix"
         description="Battle-tested communication products that connect, automate, and accelerate your business by Ayotrix Infotech."
         path="/products"
       />
 
-      {/* Exact Mockup Products Section */}
       <ProductsShowcaseSection isPage={true} />
 
       {/* BOTTOM CTA BANNER */}

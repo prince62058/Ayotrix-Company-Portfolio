@@ -1,37 +1,244 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { 
-  ArrowRight, 
-  CheckCircle2, 
-  ArrowUpRight, 
-  Star, 
-  ShieldCheck, 
-  Copy, 
-  Check
-} from "lucide-react";
+import { ArrowRight, ChevronRight, CheckCircle2, ArrowUpRight, Smartphone, Star, ShieldCheck, Download, Copy, Check } from "lucide-react";
 import { ScrollReveal, StaggerParent, StaggerChild } from "@/components/ui/scroll-reveal";
 import { DM_SERVICES } from "@/lib/static-data";
 import MessagingSection from "@/components/MessagingSection";
 import GetStartedForm from "@/components/GetStartedForm";
-import { useGetServices, useGetSiteSettings } from "@workspace/api-client-react";
+import ServicesShowcaseSection from "@/components/sections/ServicesShowcaseSection";
+import ProductsShowcaseSection from "@/components/sections/ProductsShowcaseSection";
+import { useGetBanners, useGetServices, useGetSiteSettings } from "@workspace/api-client-react";
 import SeoHead from "@/components/SeoHead";
 import IconDisplay, { resolveIcon } from "@/components/IconDisplay";
 import { useToast } from "@/hooks/use-toast";
 import appIconImg from "@assets/marketingkart-icon.png";
-import ServicesShowcaseSection from "@/components/sections/ServicesShowcaseSection";
-import ProductsShowcaseSection from "@/components/sections/ProductsShowcaseSection";
+
+const HERO_SLIDES = [
+  {
+    badge: "Official Mobile App",
+    title: "Download MarketingKart",
+    accent: "On Google Play Store",
+    subtitle: "Launch WhatsApp & RCS marketing campaigns, track live software projects, and calculate instant quotes right from your smartphone.",
+    cta: "Download on Google Play",
+    ctaLink: "https://play.google.com/store/apps/details?id=com.marketingkart.app",
+    tag: "4.9★ on Google Play Store",
+    imageUrl: "",
+  },
+  {
+    badge: "Application Development",
+    title: "Build World-Class",
+    accent: "Mobile & Web Apps",
+    subtitle: "E-Commerce stores, Taxi booking apps, and Service marketplace platforms — custom-built for your exact business requirements.",
+    cta: "Explore Services",
+    ctaLink: "/services",
+    tag: "150+ Apps Delivered",
+    imageUrl: "",
+  },
+  {
+    badge: "Communication Products",
+    title: "Power Your Business with Smart",
+    accent: "Communication Tools",
+    subtitle: "WhatsApp Marketing, RCS Messaging, AI Agents, OTP Services — all in one platform. Connect with your customers at scale.",
+    cta: "View Products",
+    ctaLink: "/products",
+    tag: "Trusted by 2000+ businesses",
+    imageUrl: "",
+  },
+  {
+    badge: "Digital Marketing",
+    title: "Accelerate Growth with",
+    accent: "Digital Marketing",
+    subtitle: "Google Ads, Social Media, SEO, Graphic Design, UGC Reels — comprehensive digital marketing that drives real results.",
+    cta: "Start Growing",
+    ctaLink: "/digital-marketing",
+    tag: "200% Average ROI",
+    imageUrl: "",
+  },
+];
+
+function HeroBanner() {
+  const { data: dynamicBanners } = useGetBanners();
+  const [current, setCurrent] = useState(0);
+  const mX = useMotionValue(0.5);
+  const mY = useMotionValue(0.5);
+  const heroX = useSpring(useTransform(mX, [0, 1], [-8, 8]), { stiffness: 120, damping: 28 });
+  const heroY = useSpring(useTransform(mY, [0, 1], [-5, 5]), { stiffness: 120, damping: 28 });
+
+  const onHeroMouse = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    mX.set((e.clientX - r.left) / r.width);
+    mY.set((e.clientY - r.top) / r.height);
+  }, [mX, mY]);
+
+  const slides = dynamicBanners && dynamicBanners.length > 0 ? [
+    HERO_SLIDES[0],
+    ...dynamicBanners.map(b => ({
+      badge: "Featured",
+      title: b.title,
+      accent: "",
+      subtitle: b.subtitle,
+      cta: b.ctaText,
+      ctaLink: b.ctaLink,
+      tag: "Updated live",
+      imageUrl: b.imageUrl,
+    }))
+  ] : HERO_SLIDES;
+
+  useEffect(() => {
+    const t = setInterval(() => setCurrent(c => (c + 1) % slides.length), 5500);
+    return () => clearInterval(t);
+  }, [slides.length]);
+
+  const slide = slides[current] || HERO_SLIDES[0];
+  const isDefaultMedia = !slide.imageUrl || slide.imageUrl === "default";
+  const isVideo = slide.imageUrl && (
+    slide.imageUrl.startsWith("data:video/") ||
+    slide.imageUrl.endsWith(".mp4") ||
+    slide.imageUrl.endsWith(".webm") ||
+    slide.imageUrl.endsWith(".mov") ||
+    slide.imageUrl.includes(".mp4?")
+  );
+
+  return (
+    <section
+      className="relative w-full min-h-[92vh] overflow-hidden flex items-center"
+      onMouseMove={onHeroMouse}
+    >
+      {!isDefaultMedia ? (
+        isVideo ? (
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            src={slide.imageUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : (
+          <img
+            className="absolute inset-0 w-full h-full object-cover"
+            src={slide.imageUrl}
+            alt={slide.title}
+          />
+        )
+      ) : (
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/hero-banner.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+      )}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(8,13,24,0.88) 0%, rgba(12,22,50,0.78) 40%, rgba(8,24,16,0.68) 100%)" }} />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(18,99,232,0.3), transparent)" }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full blur-3xl" style={{ background: "radial-gradient(circle, rgba(110,221,0,0.2), transparent)" }} />
+      </div>
+
+      <motion.div className="relative z-10 w-full" style={{ x: heroX, y: heroY }}>
+        <div className="container mx-auto px-4 max-w-7xl py-32">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={current}
+              className="max-w-3xl"
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 text-sm font-semibold"
+                style={{ background: "rgba(18,99,232,0.22)", border: "1px solid rgba(110,221,0,0.35)", color: "#A3E635" }}
+              >
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#6EDD00" }} />
+                {slide.badge}
+              </motion.div>
+
+              <h1 className="text-4xl md:text-7xl font-black tracking-tight text-white leading-tight mb-4">
+                {slide.title}{" "}
+                <span style={{ backgroundImage: "linear-gradient(90deg, #1A8FFF, #6EDD00)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+                  {slide.accent}
+                </span>
+              </h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.6 }}
+                className="text-xl text-blue-100/80 max-w-2xl mb-10 leading-relaxed"
+              >
+                {slide.subtitle}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, duration: 0.5 }}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+              >
+                <Button asChild size="lg" className="bg-white text-blue-900 font-bold px-8 py-6 text-base rounded-2xl hover:bg-blue-50 shadow-[0_0_30px_rgba(255,255,255,0.25)]">
+                  <Link href={slide.ctaLink}>{slide.cta} <ArrowRight className="ml-2 w-5 h-5 shrink-0" /></Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="border-white/25 text-white hover:bg-white/10 px-8 py-6 text-base rounded-2xl">
+                  <a
+                    href="#get-started"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById("get-started");
+                      const lenis = (window as any).__lenis;
+                      if (el && lenis) lenis.scrollTo(el, { offset: -20 });
+                      else el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }}
+                  >
+                    Get Free Quote <ChevronRight className="ml-1 w-4 h-4 shrink-0" />
+                  </a>
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1, duration: 0.5 }}
+                className="mt-10 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm"
+                style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)", color: "#CBD5E1" }}
+              >
+                <CheckCircle2 className="w-4 h-4" style={{ color: "#6EDD00" }} />
+                {slide.tag}
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </motion.div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+        {slides.map((_, i) => (
+          <button key={i} onClick={() => setCurrent(i)}
+            style={{ background: i === current ? "#6EDD00" : "rgba(255,255,255,0.3)" }}
+            className={`h-1 transition-all duration-300 rounded-full ${i === current ? "w-8" : "w-3"}`} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+
 
 function DigitalMarketingSection() {
   const { data: apiServices } = useGetServices();
   const dmServices = apiServices && apiServices.length > 0 ? (apiServices as any[]).filter(s => s.category === "Digital Marketing" && s.isActive !== false) : DM_SERVICES;
 
   return (
-    <section className="container mx-auto px-4 max-w-7xl py-12">
+    <section className="container mx-auto px-4 max-w-7xl py-8">
       <ScrollReveal className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 pb-6 border-b border-gray-100 gap-4">
         <div>
-          <div className="text-[#2563EB] text-xs font-black uppercase tracking-widest mb-3">Grow Online</div>
+          <div className="text-primary text-xs font-bold uppercase tracking-widest mb-3">Grow Online</div>
           <h2 className="text-4xl md:text-5xl font-black" style={{ color: "#0A1628" }}>Digital Marketing</h2>
           <p className="text-muted-foreground mt-3 max-w-xl">Full-funnel digital marketing — social media, SEO, ads, and design that drives real business growth.</p>
         </div>
@@ -41,7 +248,7 @@ function DigitalMarketingSection() {
       </ScrollReveal>
 
       <StaggerParent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {dmServices.map((dm) => (
+        {dmServices.map((dm, index) => (
           <StaggerChild key={dm.slug}>
             <Link href={`/digital-marketing/${dm.slug}`}>
               <motion.div
@@ -135,7 +342,7 @@ function PlayStoreAppSection() {
                   className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm shadow-[0_0_25px_rgba(37,99,235,0.4)] transition-all hover:scale-105"
                 >
                   <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.92L3 2.734c0-.342.22-.683.609-.92zm11.303 11.304l2.585 2.585-11.75 6.78 9.165-9.365zm2.585-2.236l-2.585 2.585L5.747 4.102l11.75 6.78zm1.18 1.118l3.14 1.812a1.002 1.002 0 0 1 0 1.734l-3.14 1.812-2.146-2.679 2.146-2.679z"/>
+                    <path d="M3.609 1.814L13.792 12 3.61 22.186a1.996 1.996 0 0 1-.61-.92L3 2.734c0-.342.22-.683.609-.92zm11.303 11.304l2.585 2.585-11.75 6.78 9.165-9.365zm2.585-2.236l-2.585 2.585L5.747 4.102l11.75 6.78zm1.18 1.118l3.14 1.812a1.002 1.002 0 0 1 0 1.734l-3.14 1.812-2.146-2.679 2.146-2.679z" />
                   </svg>
                   <div className="text-left leading-tight">
                     <div className="text-[9px] uppercase tracking-wider font-semibold opacity-80">Get it on</div>
@@ -316,22 +523,12 @@ export default function Home() {
           },
         }}
       />
-      {/* 1. TOP: OUR SERVICES (Application Development) matching mockup exactly */}
+      <HeroBanner />
       <ServicesShowcaseSection isPage={false} />
-
-      {/* 2. DIRECTLY BELOW: OUR PRODUCTS (Communication Suite) matching mockup exactly */}
       <ProductsShowcaseSection isPage={false} />
-
-      {/* 3. INTERACTIVE MESSAGING PLATFORM PREVIEW */}
       <MessagingSection />
-
-      {/* 4. DIGITAL MARKETING SERVICES */}
       <DigitalMarketingSection />
-
-      {/* 5. OFFICIAL MOBILE APP BANNER */}
       <PlayStoreAppSection />
-
-      {/* 6. GET STARTED / CTA SECTION */}
       <CTASection />
     </div>
   );

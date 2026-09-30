@@ -8,14 +8,13 @@ import ServicesShowcaseSection from "@/components/sections/ServicesShowcaseSecti
 
 export default function Services() {
   return (
-    <div className="min-h-screen bg-[#FAFCFF] pt-16 md:pt-20">
+    <div className="min-h-screen bg-[#FAFCFF] pt-20 md:pt-24 relative overflow-hidden">
       <SeoHead
         title="App Development Services | E-Commerce, Taxi & Marketplace Apps | Ayotrix"
         description="Custom app development tailored to your business — from e-commerce to on-demand platforms by Ayotrix Infotech."
         path="/services"
       />
 
-      {/* Exact Mockup Services Section */}
       <ServicesShowcaseSection isPage={true} />
 
       {/* BOTTOM CTA BANNER */}
